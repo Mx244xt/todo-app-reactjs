@@ -141,7 +141,6 @@ const useFirebaseApi = () => {
         uid: uid,
         id: id
       };
-      console.log(data)
       const headers = {
         'Content-type': 'Application/json',
       };

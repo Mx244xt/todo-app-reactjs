@@ -18,6 +18,7 @@ const LoginForm: React.FC = () => {
 
   useEffect(() => {
     logOut()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const LoginForm: React.FC = () => {
       logIn(userState);
       stopLoding();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userState]);
 
   const {
