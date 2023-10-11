@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 interface addTodoTypes {
   id: string;
+  index: number;
   text: string;
   uid: string;
 };
@@ -28,12 +29,57 @@ interface createEmailAccountType {
   password: string
 };
 
+interface changeIndexType {
+  uid: string;
+  id: string;
+  index: number;
+}
+
+interface changeIndexListType {
+  list: changeIndexType[];
+}
+
 const useFirebaseApi = () => {
   const navigate = useNavigate();
 
   const serverError = () => {
     navigate("/Internal-Server-Error");
   };
+
+  const changeIndex = async (props: changeIndexType[]) => {
+    try {
+      const list: changeIndexType[] = [];
+      props.map((e,i) => {
+        list.push({
+          id: e.id,
+          uid: e.uid,
+          index: i,
+        });
+        return list;
+      });
+
+      const data: changeIndexListType = {
+        list: list
+      };
+
+      const headers = {
+        'Content-type': 'Application/json',
+      };
+
+      const options = {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify(data),
+      };
+
+      const response: Response = await fetch('https://todo-next-api.mx244.com/changeSort', options);
+      return response.json();
+    } catch (error) {
+      console.error("データの更新に失敗しました。", error);
+      serverError();
+      return error;
+    };
+  }
 
   const getTodoList = async (uid: string) => {
     try {
@@ -55,10 +101,11 @@ const useFirebaseApi = () => {
     };
   };
 
-  const addTodo = async ({ id, text, uid }: addTodoTypes) => {
+  const addTodo = async ({ id, index, text, uid }: addTodoTypes) => {
     try {
       const data: addTodoTypes = {
         id: id,
+        index: index,
         uid: uid,
         text: text,
       };
@@ -141,7 +188,7 @@ const useFirebaseApi = () => {
         uid: uid,
         id: id
       };
-      console.log(data)
+
       const headers = {
         'Content-type': 'Application/json',
       };
@@ -213,7 +260,7 @@ const useFirebaseApi = () => {
     };
   };
 
-  return { getTodoList, addTodo, checkedTodo, editTodo, deleteTodo, createEmailAccount, signInEmailPassword };
+  return { getTodoList, addTodo, changeIndex, checkedTodo, editTodo, deleteTodo, createEmailAccount, signInEmailPassword };
 };
 
 export default useFirebaseApi;

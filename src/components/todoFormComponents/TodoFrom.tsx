@@ -24,6 +24,7 @@ const TodoFrom = () => {
 
   useEffect(() => {
     elapsedTime();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const blockBrowserBack = useCallback(() => {
@@ -54,10 +55,10 @@ const TodoFrom = () => {
             if (todoList.length <= 0) {
               noTodo();
             }
-            const sortList = todoList.sort((a: any, b: any) => b.updateAt.seconds - a.updateAt.seconds);
+            const sortList = todoList.sort((a: TodoType, b: TodoType) => a.index - b.index);
             setTodos(sortList);
           } else {
-            setError("todoList",{
+            setError("todoList", {
               type: "manual",
               message: "データが取得できませんでした。",
             })
@@ -94,10 +95,10 @@ const TodoFrom = () => {
         <Title title="Nextjs 13 Todo App" />
         <div className='w-full max-w-xl mt-5 px-5'>
           <div className='w-full px-8 py-6 bg-white shadow-md rounded-lg'>
-            <AddTask onAddTodo={addTodo} />
+            <AddTask onAddTodo={addTodo} todos={todos} />
             {isLoading
               ? <Loading />
-              : <TodoList todos={todos} deleteTask={deleteTask} />}
+              : <TodoList todos={todos} setTodos={setTodos} deleteTask={deleteTask} />}
             {errors && <p className=' text-gray-400 flex justify-center'>{errors.todoList?.message}</p>}
           </div>
         </div>

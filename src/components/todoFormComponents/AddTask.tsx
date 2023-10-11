@@ -1,4 +1,3 @@
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -9,7 +8,7 @@ import { todoFormType, todoValidationShema } from '../../lib/validationShema';
 import { ResponseTodoType, TodoPropsTypes } from '../../types';
 import { ButtonForm, InputForm, Loading } from '../uiComponents';
 
-const AddTask = ({ onAddTodo }: TodoPropsTypes) => {
+const AddTask = ({ todos, onAddTodo }: TodoPropsTypes) => {
   const { isLoading, startLoding, stopLoding } = useLoading();
   const { cookies, logOut, updateSessionTime } = useCookiesHooks();
   const { addTodo } = useFirebaseApi();
@@ -37,7 +36,7 @@ const AddTask = ({ onAddTodo }: TodoPropsTypes) => {
       try {
         startLoding();
         const id = uuidv4();
-        const response: ResponseTodoType = await addTodo({ id: id, text: todo, uid: cookies.uid });
+        const response: ResponseTodoType = await addTodo({ id: id, index: todos.length, text: todo, uid: cookies.uid });
         if (response.statusCode === 200) {
           const newTodo = response.todoList;
           newTodo.id = id;
@@ -86,7 +85,7 @@ const AddTask = ({ onAddTodo }: TodoPropsTypes) => {
         errors={errors}
         placeholder='追加するタスクを入力してください。'
       />
-      <ButtonForm title='タスクの追加' type='submit' textColor='text-white' bgColor={isLoading ? 'bg-blue-300' : 'bg-blue-500'} icon='/images/plus_icon.png' clickEvent={emptyEvent} disabled={false} />
+      <ButtonForm title='タスクの追加' type='submit' textColor='text-white' bgColor={isLoading ? 'bg-blue-300' : 'bg-blue-500'} icon='/images/plus_icon.png' clickEvent={emptyEvent} disabled={isLoading} />
       {isLoading && <Loading />}
     </form>
   );

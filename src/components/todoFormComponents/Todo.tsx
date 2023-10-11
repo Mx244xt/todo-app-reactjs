@@ -6,6 +6,8 @@ import { useCookiesHooks, useLoading } from '../../hooks';
 import { todoFormType, todoValidationShema } from '../../lib/validationShema';
 import { ResponseTodoType, TodoType } from '../../types';
 import { Loading } from '../uiComponents';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface TodoPropsType {
   todo: TodoType;
@@ -13,12 +15,28 @@ interface TodoPropsType {
 };
 
 const Todo = ({ todo, deleteTask }: TodoPropsType) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({
+    id: todo.id
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   const inputRef = useRef<HTMLInputElement>(null);
   const { isLoading, startLoding, stopLoding } = useLoading();
   const { updateSessionTime } = useCookiesHooks();
   const { checkedTodo, deleteTodo, editTodo } = useFirebaseApi();
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTaskTitle, setEditedTaskTitle] = useState(todo.text);
+  const [editedTaskText, setEditedTaskText] = useState(todo.text);
+  const [stockTaskText, setStockTaskText] = useState(todo.text);
   const [isCompleted, setIsCmpleted] = useState(todo.completed);
   const {
     register,
@@ -28,9 +46,9 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
   } = useForm<todoFormType>({
     mode: 'onChange',
     resolver: zodResolver(todoValidationShema),
-    defaultValues: { todo: editedTaskTitle }
+    defaultValues: { todo: editedTaskText }
   });
-  
+
   const updateError = () => {
     setError("todo", {
       type: "manual",
@@ -45,6 +63,7 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
   }, [isEditing]);
 
   const handleEdit = () => {
+    setStockTaskText(editedTaskText);
     setIsEditing(true);
   };
 
@@ -67,20 +86,20 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
 
   const handleSave = async () => {
     updateSessionTime();
-    if (editedTaskTitle !== "") {
+    if (editedTaskText !== "") {
       clearErrors("todo");
       setIsEditing(false);
       try {
-        const response: ResponseTodoType = await editTodo({ uid: todo.uid, id: todo.id, newText: editedTaskTitle });
+        const response: ResponseTodoType = await editTodo({ uid: todo.uid, id: todo.id, newText: editedTaskText });
         if (response.statusCode === 200) {
         } else {
           console.error(response.statusCode, response.message);
           updateError()
-          setEditedTaskTitle(todo.text);
+          setEditedTaskText(todo.text);
         };
       } catch (error) {
         console.error("500: ", error);
-        setEditedTaskTitle(todo.text);
+        setEditedTaskText(todo.text);
       };
     } else {
       setError("todo", {
@@ -102,6 +121,11 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
     stopLoding();
   };
 
+  const handleReset = () => {
+    setEditedTaskText(stockTaskText);
+    setIsEditing(false);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing || e.key !== 'Enter') return;
     handleSave();
@@ -109,43 +133,53 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
 
   return (
     <>
-      <li
-        key={todo.id}
-        className='flex items-center justify-between pl-2 pr-4 py-4 bg-white border-l-4 border-blue-500 rounded shadow relative'>
-        <div className='flex items-center pr-2  w-80'>
-          <div>
-            <input type="checkbox" className='mr-3 w-5' onChange={handleCompleted} checked={isCompleted} />
-          </div>
-          {isLoading ? <Loading /> :
-            isEditing ? (
-              <input
-                ref={inputRef}
-                type='text'
-                className='mr-2 py-1 px-2 w-full rounded border-gray-400 border'
-                {...register}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditedTaskTitle(e.target.value)}
-                value={editedTaskTitle}
-                onKeyDown={handleKeyDown}
-                placeholder='変更するタスクを入力してください。'
-              />
-            ) : (
-              isCompleted ? (
-                <span className='text-gray-400 line-through flex items-center break-all'>{editedTaskTitle}</span>
+      <div ref={setNodeRef} style={style} >
+        <li
+          className='flex items-center justify-between pl-2 pr-4 py-4 bg-white border-l-4 border-blue-500 rounded shadow relative'>
+          <picture className='flex justify-center items-center w-3 h-3' {...attributes} {...listeners}>
+            {transform && transition ? <img src="/images/sort_icon_disable.png" alt="" />
+              : <img src="/images/sort_icon_active.png" alt="" />}
+          </picture>
+          <div className='flex items-center pr-2  w-80'>
+            <div>
+              <input type="checkbox" className='mr-3 w-5 cursor-pointer' onChange={handleCompleted} checked={isCompleted} />
+            </div>
+            {isLoading ? <Loading /> :
+              isEditing ? (
+                <input
+                  ref={inputRef}
+                  type='text'
+                  className='mr-2 py-1 px-2 w-full rounded border-gray-400 border'
+                  {...register}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditedTaskText(e.target.value)}
+                  value={editedTaskText}
+                  onKeyDown={handleKeyDown}
+                  placeholder='変更するタスクを入力してください。'
+                />
               ) : (
-                <span className='text-black flex items-center break-all'>{editedTaskTitle}</span>
+                isCompleted ? (
+                  <span className='text-gray-400 line-through flex items-center break-all'>{editedTaskText}</span>
+                ) : (
+                  <span className='text-black flex items-center break-all'>{editedTaskText}</span>
+                )
               )
-            )
-          }
-        </div>
-        <div className='flex flex-col items-end w-24 sm:flex-row sm:items-center'>
-          {isEditing ? (
-            <button className='text-green-500 mr-3' onClick={handleSave}>保存</button>
-          ) : (
-            <button className='text-green-500 mr-3' onClick={handleEdit}>編集</button>
-          )}
-          <button className='text-red-500 mr-3' onClick={handleDelete}>削除</button>
-        </div>
-      </li >
+            }
+          </div>
+          <div className='flex flex-col items-end w-24 sm:flex-row sm:items-center'>
+            {isEditing ? (
+              <button className='text-green-500 mr-3' onClick={handleSave}>保存</button>
+            ) : (
+              <button className='text-green-500 mr-3' onClick={handleEdit}>編集</button>
+            )}
+            {isEditing ? (
+              <button className='text-red-500 mr-3' onClick={handleReset}>戻る</button>
+            ) : (
+              <button className='text-red-500 mr-3' onClick={handleDelete}>削除</button>
+            )}
+
+          </div>
+        </li >
+      </div>
       <p className='text-red-400'>{errors.todo?.message}</p>
     </>
   );

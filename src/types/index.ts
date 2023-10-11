@@ -1,5 +1,6 @@
 export interface TodoType {
   id: string;
+  index: number;
   text: string;
   createAt: Date;
   updateAt: Date;
@@ -8,6 +9,7 @@ export interface TodoType {
 };
 
 export interface TodoPropsTypes {
+  todos: TodoType[];
   onAddTodo: (data: TodoType) => void;
 };
 
