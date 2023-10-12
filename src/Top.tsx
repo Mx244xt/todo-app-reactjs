@@ -7,6 +7,6 @@ function Top() {
       <BackgroundImage url="/images/desk_work.jpeg" />
       <LoginForm />
     </div >);
-};
+}
 
 export default Top;

@@ -6,7 +6,7 @@ interface ButtomProps {
   icon: string
   clickEvent: (data: React.MouseEvent<HTMLButtonElement>) => void | null | Promise<void>;
   disabled: boolean;
-};
+}
 
 const ButtonForm = ({ title, type, textColor, bgColor, icon, clickEvent, disabled }: ButtomProps) => {
   return (

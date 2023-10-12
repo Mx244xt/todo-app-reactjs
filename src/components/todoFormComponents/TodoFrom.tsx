@@ -24,7 +24,6 @@ const TodoFrom = () => {
 
   useEffect(() => {
     elapsedTime();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const blockBrowserBack = useCallback(() => {
@@ -61,18 +60,18 @@ const TodoFrom = () => {
             setError("todoList", {
               type: "manual",
               message: "データが取得できませんでした。",
-            })
+            });
           }
-        };
+        }
       } catch (error) {
         stopLoding();
         console.error('500', error);
       } finally {
         stopLoding();
-      };
+      }
     };
     fetchData();
-  }, [cookies.uid]);
+  }, []);
 
   const addTodo = (newTodo: TodoType) => {
     setTodos((todos) => [newTodo, ...todos]);
@@ -86,7 +85,7 @@ const TodoFrom = () => {
     setTodos(updataTodos);
     if (updataTodos.length <= 0) {
       noTodo();
-    };
+    }
   };
 
   return (

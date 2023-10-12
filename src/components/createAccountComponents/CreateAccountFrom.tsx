@@ -43,9 +43,9 @@ const CreateAccountFrom = () => {
       });
       stopLoding();
       setTimeout(() => {
-        clearErrors("password")
+        clearErrors("password");
       }, 5000);
-    };
+    }
   };
 
   return (

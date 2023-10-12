@@ -12,7 +12,7 @@ import { CSS } from '@dnd-kit/utilities';
 interface TodoPropsType {
   todo: TodoType;
   deleteTask: (data: string) => void;
-};
+}
 
 const Todo = ({ todo, deleteTask }: TodoPropsType) => {
   const {
@@ -59,7 +59,7 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
   useEffect(() => {
     if (isEditing) {
       inputRef.current?.focus();
-    };
+    }
   }, [isEditing]);
 
   const handleEdit = () => {
@@ -72,16 +72,15 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
     try {
       setIsCmpleted(!isCompleted);
       const response: ResponseTodoType = await checkedTodo({ uid: todo.uid, id: todo.id, completed: !isCompleted });
-      if (response.statusCode === 200) {
-      } else {
+      if (response.statusCode !== 200) {
         console.error(response.statusCode, response.message);
-        updateError()
+        updateError();
         setIsCmpleted(isCompleted);
-      };
+      }
     } catch (error) {
       console.error("500: ", error);
       setIsCmpleted(isCompleted);
-    };
+    }
   };
 
   const handleSave = async () => {
@@ -91,21 +90,20 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
       setIsEditing(false);
       try {
         const response: ResponseTodoType = await editTodo({ uid: todo.uid, id: todo.id, newText: editedTaskText });
-        if (response.statusCode === 200) {
-        } else {
+        if (response.statusCode !== 200) {
           console.error(response.statusCode, response.message);
-          updateError()
+          updateError();
           setEditedTaskText(todo.text);
-        };
+        }
       } catch (error) {
         console.error("500: ", error);
         setEditedTaskText(todo.text);
-      };
+      }
     } else {
       setError("todo", {
         type: "manual",
         message: "１文字以上入力してください。",
-      })
+      });
     }
   };
 
@@ -116,7 +114,7 @@ const Todo = ({ todo, deleteTask }: TodoPropsType) => {
     if (response.statusCode === 200) {
       deleteTask(todo.id);
     } else {
-      updateError()
+      updateError();
     }
     stopLoding();
   };

@@ -4,7 +4,7 @@ interface ConfirmType {
   title: string;
   message: string;
   icon: string;
-};
+}
 
 const ConfirmButton: React.FC<ConfirmType> = ({ title, message, icon }) => {
   const { openDialog } = useConfirmationDialog();

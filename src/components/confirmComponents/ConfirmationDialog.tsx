@@ -2,7 +2,7 @@ import { useConfirmationDialog } from 'context/ConfirmationDialogContext';
 
 interface DialogType {
   action: () => void 
-};
+}
 
 const ConfirmationDialog:any = ({ action }: DialogType) => {
   const { isDialogOpen, dialogContent, closeDialog, confirmAction } = useConfirmationDialog();

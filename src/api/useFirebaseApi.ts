@@ -5,29 +5,29 @@ interface addTodoTypes {
   index: number;
   text: string;
   uid: string;
-};
+}
 
 interface checkedTodoTypes {
   uid: string
   id: string;
   completed: boolean;
-};
+}
 
 interface editTodoType {
   uid: string;
   id: string;
   newText: string
-};
+}
 
 interface deleteTodoType {
   uid: string;
   id: string;
-};
+}
 
-interface createEmailAccountType {
+interface emailAuthType {
   email: string;
   password: string
-};
+}
 
 interface changeIndexType {
   uid: string;
@@ -49,7 +49,7 @@ const useFirebaseApi = () => {
   const changeIndex = async (props: changeIndexType[]) => {
     try {
       const list: changeIndexType[] = [];
-      props.map((e,i) => {
+      props.map((e, i) => {
         list.push({
           id: e.id,
           uid: e.uid,
@@ -78,8 +78,8 @@ const useFirebaseApi = () => {
       console.error("データの更新に失敗しました。", error);
       serverError();
       return error;
-    };
-  }
+    }
+  };
 
   const getTodoList = async (uid: string) => {
     try {
@@ -98,7 +98,7 @@ const useFirebaseApi = () => {
       console.error("データの取得に失敗しました。: " + error);
       serverError();
       return error;
-    };
+    }
   };
 
   const addTodo = async ({ id, index, text, uid }: addTodoTypes) => {
@@ -126,7 +126,7 @@ const useFirebaseApi = () => {
       console.error("データの作成に失敗しました。", error);
       serverError();
       return error;
-    };
+    }
   };
 
   const checkedTodo = async ({ uid, id, completed }: checkedTodoTypes) => {
@@ -152,7 +152,7 @@ const useFirebaseApi = () => {
       console.error("データの更新に失敗しました。", error);
       serverError();
       return error;
-    };
+    }
   };
 
   const editTodo = async ({ uid, id, newText }: editTodoType) => {
@@ -179,7 +179,7 @@ const useFirebaseApi = () => {
       console.error("データの更新に失敗しました。", error);
       serverError();
       return error;
-    };
+    }
   };
 
   const deleteTodo = async ({ uid, id }: deleteTodoType) => {
@@ -205,12 +205,12 @@ const useFirebaseApi = () => {
       console.error("データの削除に失敗しました。", error);
       serverError();
       return error;
-    };
+    }
   };
 
-  const createEmailAccount = async ({ email, password }: createEmailAccountType) => {
+  const createEmailAccount = async ({ email, password }: emailAuthType) => {
     try {
-      const data: createEmailAccountType = {
+      const data: emailAuthType = {
         email: email,
         password: password,
       };
@@ -231,12 +231,12 @@ const useFirebaseApi = () => {
       console.error("アカウントの作成に失敗しました。", error);
       serverError();
       return error;
-    };
+    }
   };
 
-  const signInEmailPassword = async (email: string, password: string) => {
+  const signInEmailPassword = async ({ email, password }: emailAuthType) => {
     try {
-      const data: any = {
+      const data: emailAuthType = {
         email: email,
         password: password,
       };
@@ -257,7 +257,7 @@ const useFirebaseApi = () => {
       console.error("ログイン認証に失敗しました。", error);
       serverError();
       return error;
-    };
+    }
   };
 
   return { getTodoList, addTodo, changeIndex, checkedTodo, editTodo, deleteTodo, createEmailAccount, signInEmailPassword };

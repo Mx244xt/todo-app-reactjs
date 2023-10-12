@@ -12,8 +12,8 @@ const useCookiesHooks = () => {
       const diff = ((cookies.elapsedTime - cookies.loginTime) / (60 * 60 * 1000));
       if (diff > 3) {
         logOut();
-      };
-    };
+      }
+    }
   };
 
   const updateSessionTime = () => {
@@ -34,6 +34,6 @@ const useCookiesHooks = () => {
   };
 
   return { cookies, logIn, logOut, elapsedTime, updateSessionTime };
-}
+};
 
 export default useCookiesHooks;

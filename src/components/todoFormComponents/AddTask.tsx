@@ -44,23 +44,23 @@ const AddTask = ({ todos, onAddTodo }: TodoPropsTypes) => {
         } else {
           console.error(response.statusCode, response.message);
           badResponse();
-        };
+        }
       } catch (error) {
         console.error("500: ", error);
         badResponse();
       } finally {
         stopLoding();
-      };
+      }
     } else {
       setError("todo", {
         type: "manual",
         message: "IDの有効期限が切れています。",
       });
       setTimeout(() => {
-        clearErrors("todo")
-        logOut()
+        clearErrors("todo");
+        logOut();
       }, 3000);
-    };
+    }
   };
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const AddTask = ({ todos, onAddTodo }: TodoPropsTypes) => {
         setTimeout(() => {
           clearErrors("todo");
         }, 3000);
-      };
+      }
     });
   }, [errors.todo]);
 

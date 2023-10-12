@@ -21,7 +21,7 @@ interface TodoPropsTypes {
   todos: TodoType[];
   setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
   deleteTask: (data: string) => void;
-};
+}
 
 const TodoList = ({ todos, setTodos, deleteTask }: TodoPropsTypes) => {
   const { changeIndex } = useFirebaseApi();
@@ -41,11 +41,11 @@ const TodoList = ({ todos, setTodos, deleteTask }: TodoPropsTypes) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
         const result = arrayMove(items, oldIndex, newIndex);
-        changeIndex(result)
-        return result
+        changeIndex(result);
+        return result;
       });
     }
-  }
+  };
   //
 
   return (
@@ -59,7 +59,7 @@ const TodoList = ({ todos, setTodos, deleteTask }: TodoPropsTypes) => {
           items={todos}
           strategy={verticalListSortingStrategy}
         >
-          {todos.map((todo: any) => (
+          {todos.map((todo: TodoType) => (
             < Todo key={todo.id} todo={todo} deleteTask={deleteTask} />
           ))}
         </SortableContext>

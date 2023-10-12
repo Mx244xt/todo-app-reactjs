@@ -5,7 +5,7 @@ const Error500 = () => {
   const { logOut } = useCookiesHooks();
   const backToTop = () => {
     logOut();
-  }
+  };
   return (
     <div className='flex justify-center items-center min-h-screen landscape:max-h-full'>
       <div className="flex flex-col items-center">

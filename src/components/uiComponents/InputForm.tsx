@@ -5,7 +5,7 @@ interface InputFormType {
   password: string;
   passwordConfirm: string;
   todo: string;
-};
+}
 
 interface InputProps {
   title: string;
@@ -14,7 +14,7 @@ interface InputProps {
   register: UseFormRegisterReturn;
   errors: FieldErrors<InputFormType>;
   placeholder: string;
-};
+}
 
 const InputForm = ({ title, type, id, register, errors, placeholder }: InputProps) => {
 
@@ -31,7 +31,7 @@ const InputForm = ({ title, type, id, register, errors, placeholder }: InputProp
       break;
     case "todo":
       error = errors.todo?.message;
-  };
+  }
 
   return (
     <>

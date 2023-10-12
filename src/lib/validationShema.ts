@@ -37,7 +37,7 @@ export const createAccountFormValidationShema = z.object({
         code: 'custom',
         message: 'パスワードとパスワード確認が一致しません',
       });
-    };
+    }
   });
 
 export type createAccountFormType = z.infer<typeof createAccountFormValidationShema>;

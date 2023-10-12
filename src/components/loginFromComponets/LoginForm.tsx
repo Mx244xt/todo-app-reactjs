@@ -17,7 +17,7 @@ const LoginForm: React.FC = () => {
   const { signInEmailPassword } = useFirebaseApi();
 
   useEffect(() => {
-    logOut()
+    logOut();
   }, []);
 
   useEffect(() => {
@@ -42,19 +42,19 @@ const LoginForm: React.FC = () => {
   const loginEmail: SubmitHandler<LoginFormType> = async (data) => {
     startLoding();
     const { email, password } = data;
-    const response: ResponseAccountType = await signInEmailPassword(email, password);
+    const response: ResponseAccountType = await signInEmailPassword({ email, password });
     if (response.statusCode === 200) {
       setUserState(response.uid);
     } else {
       setError("password", {
         type: "manual",
         message: "メールアドレスまたは、パスワードが間違っています。",
-      })
+      });
       stopLoding();
       setTimeout(() => {
-        clearErrors("password")
+        clearErrors("password");
       }, 5000);
-    };
+    }
   };
 
   const emptyEvent = () => { };

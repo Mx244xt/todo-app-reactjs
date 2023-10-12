@@ -7,7 +7,7 @@ interface ConfirmationDialogContextType {
   openDialog: (content: string) => void;
   closeDialog: () => void;
   confirmAction: (action: () => void) => void;
-};
+}
 
 const ConfirmationDialogContext = createContext<ConfirmationDialogContextType | undefined>(undefined);
 

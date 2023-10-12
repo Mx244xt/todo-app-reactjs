@@ -1,6 +1,6 @@
 interface BackImageType {
   url: string;
-};
+}
 
 const BackgroundImage = ({ url }:BackImageType) => {
   return (
