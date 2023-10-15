@@ -75,7 +75,6 @@ const useFirebaseApi = () => {
       const response: Response = await fetch('https://todo-next-api.mx244.com/changeSort', options);
       return response.json();
     } catch (error) {
-      console.error("データの更新に失敗しました。", error);
       serverError();
       return error;
     }
@@ -95,7 +94,6 @@ const useFirebaseApi = () => {
       const response: Response = await fetch(`https://todo-next-api.mx244.com/getTodoList/?uid=${uid}`, options);
       return response.json();
     } catch (error) {
-      console.error("データの取得に失敗しました。: " + error);
       serverError();
       return error;
     }
@@ -123,7 +121,6 @@ const useFirebaseApi = () => {
       const response: Response = await fetch('https://todo-next-api.mx244.com/addTodo', options);
       return response.json();
     } catch (error) {
-      console.error("データの作成に失敗しました。", error);
       serverError();
       return error;
     }
@@ -149,7 +146,6 @@ const useFirebaseApi = () => {
       const response: Response = await fetch('https://todo-next-api.mx244.com/checkedTodo', options);
       return response.json();
     } catch (error) {
-      console.error("データの更新に失敗しました。", error);
       serverError();
       return error;
     }
@@ -176,7 +172,6 @@ const useFirebaseApi = () => {
       const response: Response = await fetch('https://todo-next-api.mx244.com/editTodo', options);
       return response.json();
     } catch (error) {
-      console.error("データの更新に失敗しました。", error);
       serverError();
       return error;
     }
@@ -202,7 +197,6 @@ const useFirebaseApi = () => {
       const response: Response = await fetch('https://todo-next-api.mx244.com/deleteTodo', options);
       return response.json();
     } catch (error) {
-      console.error("データの削除に失敗しました。", error);
       serverError();
       return error;
     }
@@ -228,7 +222,6 @@ const useFirebaseApi = () => {
       const response: Response = await fetch('https://todo-next-api.mx244.com/createemailaccount', options);
       return response.json();
     } catch (error) {
-      console.error("アカウントの作成に失敗しました。", error);
       serverError();
       return error;
     }
@@ -254,7 +247,6 @@ const useFirebaseApi = () => {
       const response: Response = await fetch("https://todo-next-api.mx244.com/checkAuth", options);
       return response.json();
     } catch (error) {
-      console.error("ログイン認証に失敗しました。", error);
       serverError();
       return error;
     }

@@ -1,7 +1,7 @@
-import LoginForm from './components/loginFromComponets/LoginForm';
-import BackgroundImage from './components/baseComponents/BackgroundImage';
+import BackgroundImage from './components/base/BackgroundImage';
+import LoginForm from './components/loginFrom/LoginForm';
 
-function Top() {
+function TopPage() {
   return (
     <div className='grid min-h-screen landscape:max-h-full grid-cols-1 overflow-hidden  lg:grid-cols-2'>
       <BackgroundImage url="/images/desk_work.jpeg" />
@@ -9,4 +9,4 @@ function Top() {
     </div >);
 }
 
-export default Top;
+export default TopPage;

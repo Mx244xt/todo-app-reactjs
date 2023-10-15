@@ -1,5 +1,5 @@
-import BackgroundImage from '../components/baseComponents/BackgroundImage';
-import CreateAccountFrom from '../components/createAccountComponents/CreateAccountFrom';
+import BackgroundImage from './components/base/BackgroundImage';
+import CreateAccountFrom from './components/createAccount/CreateAccountFrom';
 
 const CreateAccount = () => {
   return (

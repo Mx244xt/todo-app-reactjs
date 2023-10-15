@@ -1,53 +1,12 @@
-
-import { ResponseAccountType } from '@/types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createAccountFormType, createAccountFormValidationShema } from 'lib/validationShema';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import useFirebaseApi from '../../api/useFirebaseApi';
-import { useCookiesHooks, useLoading } from '../../hooks';
-import FormBody from '../baseComponents/FormBody';
-import { ButtonForm, InputForm, Loading, Title } from '../uiComponents';
+import FormBody from '../base/FormBody';
+import { EventButton, InputForm, Loading, SubmitButton, Title } from '../uiComponents';
+import useCreateAccount from './hooks/useCreateAccount';
 
 const CreateAccountFrom = () => {
-  const navigate = useNavigate();
-  const { isLoading, startLoding, stopLoding } = useLoading();
-  const { logIn } = useCookiesHooks();
-  const { createEmailAccount } = useFirebaseApi();
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setError,
-    clearErrors,
-  } = useForm<createAccountFormType>({
-    mode: 'onChange',
-    resolver: zodResolver(createAccountFormValidationShema)
-  });
-
-  const emptyEvent = () => { };
-
-  const backToLoginForm = () => {
-    navigate('/');
-  };
-
-  const createAccount: SubmitHandler<createAccountFormType> = async (data) => {
-    startLoding();
-    const response: ResponseAccountType = await createEmailAccount(data);
-    if (response.statusCode === 200) {
-      logIn(response.uid);
-    } else if (response.statusCode === 403) {
-      setError("passwordConfirm", {
-        type: "manual",
-        message: "このメールアドレスはすでに使用されています。",
-      });
-      stopLoding();
-      setTimeout(() => {
-        clearErrors("password");
-      }, 5000);
-    }
-  };
-
+    state: { isLoading, errors },
+    action: { register, handleSubmit, backToLoginForm, createAccount }
+  } = useCreateAccount();
   return (
     <FormBody>
       <Title title="アカウントの新規作成" />
@@ -79,17 +38,15 @@ const CreateAccountFrom = () => {
           />
           <div className='m-5'></div>
           {isLoading && <Loading />}
-          <ButtonForm
+          <SubmitButton
             title="新規アカウント作成"
-            type="submit"
             icon='/images/create_user_icon.png'
             textColor="text-white"
             bgColor='bg-blue-500'
-            clickEvent={emptyEvent}
             disabled={false}
           />
           <div className='m-5'></div>
-          <ButtonForm
+          <EventButton
             title="戻る"
             type="button"
             icon='/images/back_icon.png'

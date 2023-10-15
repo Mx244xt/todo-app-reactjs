@@ -1,14 +1,12 @@
 interface ButtomProps {
   title: string;
-  type: "button" | "submit" | "reset" | undefined;
   textColor: string;
   bgColor: string;
   icon: string
-  clickEvent: (data: React.MouseEvent<HTMLButtonElement>) => void | null | Promise<void>;
   disabled: boolean;
 }
 
-const ButtonForm = ({ title, type, textColor, bgColor, icon, clickEvent, disabled }: ButtomProps) => {
+const SubmitButton = ({ title, textColor, bgColor, icon, disabled }: ButtomProps) => {
   return (
     <div className={`w-full border rounded transform  hover:scale-95 duration-300 flex justify-center items-center text-center border-gray-300 ${textColor} ${bgColor} hover:${bgColor}`}>
       {icon &&
@@ -20,8 +18,7 @@ const ButtonForm = ({ title, type, textColor, bgColor, icon, clickEvent, disable
       }
       <button
         className={`w-full px-2 py-2`}
-        type={type}
-        onClick={clickEvent}
+        type="submit"
         disabled={disabled}
       >
         {title}
@@ -30,4 +27,4 @@ const ButtonForm = ({ title, type, textColor, bgColor, icon, clickEvent, disable
   );
 };
 
-export default ButtonForm;
+export default SubmitButton;
