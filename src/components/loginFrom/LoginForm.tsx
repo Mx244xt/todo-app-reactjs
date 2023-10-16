@@ -1,5 +1,5 @@
 import FormBody from '../base/FormBody';
-import { InputForm, Loading, SubmitButton, Title } from '../uiComponents';
+import { InputForm, InputPassword, Loading, SubmitButton, Title } from '../uiComponents';
 import useLogin from './hooks/useLogin';
 
 const LoginForm: React.FC = () => {
@@ -20,9 +20,8 @@ const LoginForm: React.FC = () => {
           errors={errors}
           placeholder='メールアドレスを入力してください。'
         />
-        <InputForm
+        <InputPassword
           title="パスワード"
-          type="password"
           id="password"
           register={register("password")}
           errors={errors}

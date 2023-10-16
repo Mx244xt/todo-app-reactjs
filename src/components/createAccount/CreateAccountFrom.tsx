@@ -1,5 +1,5 @@
 import FormBody from '../base/FormBody';
-import { EventButton, InputForm, Loading, SubmitButton, Title } from '../uiComponents';
+import { EventButton, InputForm, InputPassword, Loading, SubmitButton, Title } from '../uiComponents';
 import useCreateAccount from './hooks/useCreateAccount';
 
 const CreateAccountFrom = () => {
@@ -20,17 +20,15 @@ const CreateAccountFrom = () => {
             errors={errors}
             placeholder='登録するメールアドレスを入力してください。'
           />
-          <InputForm
+          <InputPassword
             title="パスワード"
-            type="password"
             id="password"
             register={register("password")}
             errors={errors}
             placeholder='登録するパスワードを入力してください。'
           />
-          <InputForm
+          <InputPassword
             title="パスワード確認"
-            type="password"
             id="passwordConfirm"
             register={register("passwordConfirm")}
             errors={errors}

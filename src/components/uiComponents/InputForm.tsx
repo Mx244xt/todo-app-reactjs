@@ -2,8 +2,6 @@ import { FieldErrors, UseFormRegisterReturn } from "react-hook-form";
 
 interface InputFormType {
   email: string;
-  password: string;
-  passwordConfirm: string;
   todo: string;
 }
 
@@ -22,12 +20,6 @@ const InputForm = ({ title, type, id, register, errors, placeholder }: InputProp
   switch (id) {
     case "email":
       error = errors.email?.message;
-      break;
-    case "password":
-      error = errors.password?.message;
-      break;
-    case "passwordConfirm":
-      error = errors.passwordConfirm?.message;
       break;
     case "todo":
       error = errors.todo?.message;
