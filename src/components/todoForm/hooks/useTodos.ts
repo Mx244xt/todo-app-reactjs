@@ -1,13 +1,12 @@
 
-import { ResponseTodoType, TodoType } from '@/types';
-import { useEffect, useState } from 'react';
+import { ResponseTodoType, TodoType, TodosStateType } from '@/types';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import useFirebaseApi from '../../../api/useFirebaseApi';
 import { useCookiesHooks, useLoading } from '../../../hooks';
 import { todoListType } from '../../../lib/validationShema';
 
-const useTodos = () => {
-  const [todos, setTodos] = useState<TodoType[]>([]);
+const useTodos = ({ todos, setTodos }: TodosStateType) => {
   const { isLoading, startLoding, stopLoding } = useLoading();
   const { cookies, elapsedTime, logOut } = useCookiesHooks();
   const { getTodoList } = useFirebaseApi();
@@ -39,6 +38,7 @@ const useTodos = () => {
           }
           const sortList = todoList.sort((a: TodoType, b: TodoType) => a.index - b.index);
           setTodos(sortList);
+          // console.info(sortList);
         } else {
           setError("todoList", {
             type: "manual",
@@ -79,7 +79,7 @@ const useTodos = () => {
       onAddTodo,
       onDeleteTodo,
       setTodos
-    }
+    },
   };
 };
 

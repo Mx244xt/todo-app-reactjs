@@ -13,6 +13,17 @@ export interface TodoPropsTypes {
   onAddTodo: (data: TodoType) => void;
 }
 
+export interface TodosStateType {
+  todos: TodoType[];
+  setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
+}
+
+export interface TodoPropsType {
+  todo: TodoType;
+  onAddTodo: (data: TodoType) => void;
+  onDeleteTodo: (id: string) => void;
+}
+
 export interface ResponseTodoType {
   statusCode: number;
   todoList: string & TodoType;

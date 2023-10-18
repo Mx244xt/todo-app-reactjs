@@ -46,6 +46,7 @@ export const todoValidationShema = z.object({
   todo: z
     .string()
     .min(1, "１文字以上入力してください。")
+    .max(25,"25文字以内で入力してください。")
 });
 
 export type todoFormType = z.infer<typeof todoValidationShema>;

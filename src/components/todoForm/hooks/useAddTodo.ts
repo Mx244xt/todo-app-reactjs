@@ -4,17 +4,15 @@ import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks, useLoading } from '../../../hooks';
+import { useCookiesHooks } from '../../../hooks';
 import { todoFormType, todoValidationShema } from '../../../lib/validationShema';
-import { ResponseTodoType } from '../../../types';
+import { ResponseTodoType, TodosStateType } from '../../../types';
 
-const useAddTodo = () => {
-  
+const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
+
   const {
-    state: { todos },
-    action: { onAddTodo }
-  } = useTodos();
-  const { isLoading, startLoding, stopLoding } = useLoading();
+    action: { onAddTodo, onDeleteTodo }
+  } = useTodos({ todos, setTodos });
   const { cookies, logOut, updateSessionTime } = useCookiesHooks();
   const { addTodo } = useFirebaseApi();
   const {
@@ -37,24 +35,7 @@ const useAddTodo = () => {
   const handleAddTodo: SubmitHandler<todoFormType> = async ({ todo }: { todo: string }) => {
     resetField("todo");
     updateSessionTime();
-    if (cookies.uid !== undefined) {
-      try {
-        startLoding();
-        const id = uuidv4();
-        const response: ResponseTodoType = await addTodo({ id: id, index: todos.length, text: todo, uid: cookies.uid });
-        if (response.statusCode === 200) {
-          const newTodo = response.todoList;
-          newTodo.id = id;
-          onAddTodo(newTodo);
-        } else {
-          badResponse();
-        }
-      } catch (error) {
-        badResponse();
-      } finally {
-        stopLoding();
-      }
-    } else {
+    if (cookies.uid == null) {
       setError("todo", {
         type: "manual",
         message: "IDの有効期限が切れています。",
@@ -63,6 +44,28 @@ const useAddTodo = () => {
         clearErrors("todo");
         logOut();
       }, 3000);
+      return;
+    }
+    const id = uuidv4();
+    const data = {
+      id: id,
+      index: todos.length,
+      text: todo,
+      createAt: new Date(),
+      updateAt: new Date(),
+      completed: false,
+      uid: cookies.uid,
+    };
+    try {
+      onAddTodo(data);
+      const response: ResponseTodoType = await addTodo({ id: id, index: todos.length, text: todo, uid: cookies.uid });
+      if (response.statusCode !== 200) {
+        onDeleteTodo(data.id);
+        badResponse();
+      }
+    } catch (error) {
+      onDeleteTodo(data.id);
+      badResponse();
     }
   };
 
@@ -77,7 +80,7 @@ const useAddTodo = () => {
   }, [errors.todo]);
 
   return {
-    state: { isLoading, errors },
+    state: { errors },
     action: { register, handleSubmit, handleAddTodo }
   };
 };

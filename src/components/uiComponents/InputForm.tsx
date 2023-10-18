@@ -27,7 +27,7 @@ const InputForm = ({ title, type, id, register, errors, placeholder }: InputProp
 
   return (
     <>
-      <label className='space-y-3 flex mt-5' htmlFor={type}>{title}</label>
+      {title !== "" && <label className='space-y-3 flex mt-5' htmlFor={type}>{title}</label>}
       <input
         className='w-full py-2 px-2 rounded shadow border-gray-400 border'
         type={type}
