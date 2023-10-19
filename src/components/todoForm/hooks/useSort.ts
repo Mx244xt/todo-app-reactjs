@@ -10,11 +10,13 @@ import {
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { TodosStateType } from '@/types';
+import { ResponseTodoType, TodosStateType } from '@/types';
+import useTodoToast from './useTodoToast';
 
 const useSort = ({ todos, setTodos }: TodosStateType) => {
 
   const { changeIndex } = useFirebaseApi();
+  const toast = useTodoToast();
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -22,17 +24,28 @@ const useSort = ({ todos, setTodos }: TodosStateType) => {
     })
   );
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
-    if (active.id !== over.id) {
-      setTodos((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
-        const result = arrayMove(items, oldIndex, newIndex);
-        changeIndex(result);
-        return result;
-      });
+    if (active.id === over.id) return;
+    const sortResult = () => {
+      const oldIndex = todos.findIndex((item) => item.id === active.id);
+      const newIndex = todos.findIndex((item) => item.id === over.id);
+      const result = arrayMove(todos, oldIndex, newIndex);
+      return result;
+    };
+    const result = sortResult();
+    setTodos(result);
+    const id = toast.loadingToast();
+    try {
+      const response: ResponseTodoType = await changeIndex(result);
+      if (response.statusCode !== 200) {
+        toast.errorToast(id);
+        return;
+      }
+      toast.successToast(id);
+    } catch (error) {
+      toast.errorToast(id);
     }
   };
 

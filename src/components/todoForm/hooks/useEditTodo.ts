@@ -5,6 +5,7 @@ import useFirebaseApi from '../../../api/useFirebaseApi';
 import { useCookiesHooks } from '../../../hooks';
 import { todoFormType, todoValidationShema } from '../../../lib/validationShema';
 import { ResponseTodoType, TodoType } from '../../../types';
+import useTodoToast from './useTodoToast';
 
 const useEditTodo = ({ todo }: { todo: TodoType }) => {
 
@@ -14,6 +15,7 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTaskText, setEditedTaskText] = useState(todo.text);
   const [stockTaskText, setStockTaskText] = useState(todo.text);
+  const toast = useTodoToast();
   const {
     register,
     handleSubmit,
@@ -37,13 +39,18 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
   const handleSave = async () => {
     updateSessionTime();
     setIsEditing(false);
+    const id = toast.loadingToast();
     try {
       const response: ResponseTodoType = await editTodo({ uid: todo.uid, id: todo.id, newText: editedTaskText });
       if (response.statusCode !== 200) {
         setEditedTaskText(todo.text);
+        toast.errorToast(id);
+        return;
       }
+      toast.successToast(id);
     } catch (error) {
       setEditedTaskText(todo.text);
+      toast.errorToast(id);
     }
   };
 
@@ -52,6 +59,7 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
     setIsEditing(false);
   };
 
+  //TODO 不要？
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing || e.key !== 'Enter') return;
     // handleSubmit(handleSave)();

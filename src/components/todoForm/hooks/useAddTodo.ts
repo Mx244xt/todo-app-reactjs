@@ -7,6 +7,7 @@ import useFirebaseApi from '../../../api/useFirebaseApi';
 import { useCookiesHooks } from '../../../hooks';
 import { todoFormType, todoValidationShema } from '../../../lib/validationShema';
 import { ResponseTodoType, TodosStateType } from '../../../types';
+import useTodoToast from './useTodoToast';
 
 const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
 
@@ -15,6 +16,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
   } = useTodos({ todos, setTodos });
   const { cookies, logOut, updateSessionTime } = useCookiesHooks();
   const { addTodo } = useFirebaseApi();
+  const toast = useTodoToast();
   const {
     register,
     handleSubmit,
@@ -32,14 +34,16 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
     message: "データの作成に失敗しました。",
   });
 
+  const idExpired = () => setError("todo", {
+    type: "manual",
+    message: "IDの有効期限が切れています。",
+  });
+
   const handleAddTodo: SubmitHandler<todoFormType> = async ({ todo }: { todo: string }) => {
     resetField("todo");
     updateSessionTime();
     if (cookies.uid == null) {
-      setError("todo", {
-        type: "manual",
-        message: "IDの有効期限が切れています。",
-      });
+      idExpired();
       setTimeout(() => {
         clearErrors("todo");
         logOut();
@@ -56,16 +60,21 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
       completed: false,
       uid: cookies.uid,
     };
+    onAddTodo(data);
+    const ToastId = toast.loadingToast();
     try {
-      onAddTodo(data);
-      const response: ResponseTodoType = await addTodo({ id: id, index: todos.length, text: todo, uid: cookies.uid });
+      const response: ResponseTodoType = await addTodo({ id: id, index: 0, text: todo, uid: cookies.uid });
       if (response.statusCode !== 200) {
         onDeleteTodo(data.id);
         badResponse();
+        toast.errorToast(ToastId);
+        return;
       }
+      toast.successToast(ToastId);
     } catch (error) {
       onDeleteTodo(data.id);
       badResponse();
+      toast.errorToast(ToastId);
     }
   };
 
