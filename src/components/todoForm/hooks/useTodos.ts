@@ -17,36 +17,30 @@ const useTodos = ({ todos, setTodos }: TodosStateType) => {
   } = useForm<todoListType>({
   });
 
-  const noTodo = () => setError("todoList", {
+  const todoNotFound = () => setError("todoList", {
     type: "manual",
     message: "登録されているタスクはありません。",
+  });
+
+  const getError = () => setError("todoList", {
+    type: "manual",
+    message: "データが取得できませんでした。",
   });
 
   useEffect(() => {
     startLoding();
     const fetchData = async () => {
       try {
-        if (cookies.uid == null) {
-          return logOut();
-        }
+        if (cookies.uid == null) return logOut();
         elapsedTime();
         const response: ResponseTodoType = await getTodoList(cookies.uid);
-        if (response.statusCode === 200) {
-          const todoList = JSON.parse(response.todoList);
-          if (todoList.length <= 0) {
-            noTodo();
-          }
-          const sortList = todoList.sort((a: TodoType, b: TodoType) => a.index - b.index);
-          setTodos(sortList);
-          // console.info(sortList);
-        } else {
-          setError("todoList", {
-            type: "manual",
-            message: "データが取得できませんでした。",
-          });
-        }
+        if (response.statusCode !== 200) return getError();
+        const todoList = JSON.parse(response.todoList);
+        if (todoList.length <= 0) return;
+        const sortList = todoList.sort((a: TodoType, b: TodoType) => a.index - b.index);
+        setTodos(sortList);
       } catch (error) {
-        stopLoding();
+        getError();
       } finally {
         stopLoding();
       }
@@ -64,22 +58,17 @@ const useTodos = ({ todos, setTodos }: TodosStateType) => {
       todo.id !== id && todo
     ));
     setTodos(updataTodos);
-    if (updataTodos.length <= 0) {
-      noTodo();
-    }
   };
 
   return {
-    state: {
-      todos,
-      errors,
-      isLoading,
-    },
-    action: {
-      onAddTodo,
-      onDeleteTodo,
-      setTodos
-    },
+    todos,
+    errors,
+    isLoading,
+    onAddTodo,
+    onDeleteTodo,
+    setTodos,
+    clearErrors,
+    todoNotFound
   };
 };
 

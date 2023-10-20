@@ -7,12 +7,9 @@ import { Loading } from '../uiComponents';
 import useTodos from './hooks/useTodos';
 
 const TodoList = ({ todos, setTodos }: TodosStateType) => {
-  const {
-    state: { sensors },
-    action: { handleDragEnd }
-  } = useSort({ todos, setTodos });
 
-  const { state: { isLoading }, action: { onAddTodo, onDeleteTodo } } = useTodos({ todos, setTodos });
+  const { sensors, handleDragEnd } = useSort({ todos, setTodos });
+  const { isLoading, onAddTodo, onDeleteTodo } = useTodos({ todos, setTodos });
 
   return (
     isLoading

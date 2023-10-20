@@ -1,27 +1,32 @@
+import { useEffect, useState } from 'react';
 import { AddTask, TodoList } from '.';
 import { useBlockBrowserBack } from '../../hooks';
 import FormBody from '../base/FormBody';
-import { Title } from '../uiComponents';
 import useTodos from './hooks/useTodos';
+import { TodoType } from '@/types';
 
 const TodoBody = () => {
-  const {
-    state: { errors }
-  } = useTodos();
-
+  const [todos, setTodos] = useState<TodoType[]>([]);
+  const { errors, isLoading, clearErrors, todoNotFound } = useTodos({ todos, setTodos });
   const { blockBrowserBack } = useBlockBrowserBack();
   blockBrowserBack();
 
+  useEffect(() => {
+    if (todos.length > 0) {
+      clearErrors("todoList");
+    } else {
+      todoNotFound();
+    }
+  }, [todos]);
+
   return (
-    //TODO トースター追加する
     <FormBody>
       <div className="w-full max-w-xl absolute top-16 flex flex-col items-center" >
-        <Title title="Nextjs 13 Todo App" />
         <div className='w-full max-w-xl mt-5 px-5'>
           <div className='w-full px-8 py-6 bg-white shadow-md rounded-lg'>
-            <AddTask />
-            <TodoList />
-            {errors && <p className=' text-gray-400 flex justify-center'>{errors.todoList?.message}</p>}
+            <AddTask isLoading={isLoading} todos={todos} setTodos={setTodos} />
+            {!isLoading && errors && <p className=' text-gray-400 flex justify-center'>{errors.todoList?.message}</p>}
+            <TodoList todos={todos} setTodos={setTodos} />
           </div>
         </div>
       </div>
