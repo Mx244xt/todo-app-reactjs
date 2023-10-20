@@ -1,22 +1,19 @@
-import useTodos from './useTodos';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks } from '../../../hooks';
+import { useCookiesHooks, useToast } from '../../../hooks';
 import { todoFormType, todoValidationShema } from '../../../lib/validationShema';
 import { ResponseTodoType, TodosStateType } from '../../../types';
-import useTodoToast from './useTodoToast';
+import useTodos from './useTodos';
 
 const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
 
-  const {
-    action: { onAddTodo, onDeleteTodo }
-  } = useTodos({ todos, setTodos });
+  const { onAddTodo, onDeleteTodo } = useTodos({ todos, setTodos });
   const { cookies, logOut, updateSessionTime } = useCookiesHooks();
   const { addTodo } = useFirebaseApi();
-  const toast = useTodoToast();
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -88,10 +85,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
     });
   }, [errors.todo]);
 
-  return {
-    state: { errors },
-    action: { register, handleSubmit, handleAddTodo }
-  };
+  return { errors, register, handleSubmit, handleAddTodo };
 };
 
 export default useAddTodo;

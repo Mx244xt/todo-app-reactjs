@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks } from '../../../hooks';
+import { useCookiesHooks, useToast } from '../../../hooks';
 import { ResponseTodoType, TodoPropsType } from '../../../types';
-import useTodoToast from './useTodoToast';
 
 const useDeleteTodo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
 
   const { updateSessionTime } = useCookiesHooks();
   const { deleteTodo } = useFirebaseApi();
   const [stockTask, setStockTask] = useState(todo);
-  const toast = useTodoToast();
+  const toast = useToast();
 
 
   const handleDelete = async () => {
@@ -18,19 +17,14 @@ const useDeleteTodo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
     onDeleteTodo(todo.id);
     const id = toast.loadingToast();
     const response: ResponseTodoType = await deleteTodo({ uid: todo.uid, id: todo.id });
-    if (response.statusCode !== 200) {
-      onAddTodo(stockTask);
-      toast.errorToast(id);
-      return;
-    }
-    toast.successToast(id);
+    if (response.statusCode === 200) return toast.successToast(id);
+    if (response.statusCode === 204) return toast.successToast(id);
+    onAddTodo(stockTask);
+    toast.errorToast(id);
+    return;
   };
 
-  return {
-    action: {
-      handleDelete
-    }
-  };
+  return { handleDelete };
 };
 
 export default useDeleteTodo;

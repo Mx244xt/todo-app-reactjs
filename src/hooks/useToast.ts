@@ -1,6 +1,6 @@
 import { Id, toast } from "react-toastify";
 
-const useTodoToast = () => {
+const useToast = () => {
 
   const loadingToast = () => {
     const id = toast.loading("データ更新中", { closeOnClick: true });
@@ -31,7 +31,23 @@ const useTodoToast = () => {
     });
   };
 
-  return { loadingToast, successToast, errorToast };
+  const logInToast = () => {
+    toast.success("ログインしました。", {
+      autoClose: 1000,
+      closeOnClick: true,
+      hideProgressBar: true
+    });
+  };
+
+  const logOutToast = () => {
+    toast.success("ログアウトしました。", {
+      autoClose: 1000,
+      closeOnClick: true,
+      hideProgressBar: true
+    });
+  };
+
+  return { loadingToast, successToast, errorToast, logInToast, logOutToast };
 };
 
-export default useTodoToast;
+export default useToast;

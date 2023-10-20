@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks } from '../../../hooks';
+import { useCookiesHooks, useToast } from '../../../hooks';
 import { ResponseTodoType, TodoType } from '../../../types';
-import useTodoToast from './useTodoToast';
 
 
 const useCompleted = ({ todo }: { todo: TodoType }) => {
@@ -10,7 +9,7 @@ const useCompleted = ({ todo }: { todo: TodoType }) => {
   const { updateSessionTime } = useCookiesHooks();
   const { checkedTodo } = useFirebaseApi();
   const [isCompleted, setIsCmpleted] = useState(todo.completed);
-  const toast = useTodoToast();
+  const toast = useToast();
 
   const handleCompleted = async () => {
     updateSessionTime();
@@ -30,14 +29,7 @@ const useCompleted = ({ todo }: { todo: TodoType }) => {
     }
   };
 
-  return {
-    state: {
-      isCompleted,
-    },
-    action: {
-      handleCompleted,
-    },
-  };
+  return { isCompleted, handleCompleted, };
 };
 
 export default useCompleted;

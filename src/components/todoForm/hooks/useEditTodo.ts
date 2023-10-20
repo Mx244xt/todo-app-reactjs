@@ -2,10 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks } from '../../../hooks';
+import { useCookiesHooks, useToast } from '../../../hooks';
 import { todoFormType, todoValidationShema } from '../../../lib/validationShema';
 import { ResponseTodoType, TodoType } from '../../../types';
-import useTodoToast from './useTodoToast';
 
 const useEditTodo = ({ todo }: { todo: TodoType }) => {
 
@@ -15,7 +14,7 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTaskText, setEditedTaskText] = useState(todo.text);
   const [stockTaskText, setStockTaskText] = useState(todo.text);
-  const toast = useTodoToast();
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -59,31 +58,18 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
     setIsEditing(false);
   };
 
-  //TODO 不要？
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.nativeEvent.isComposing || e.key !== 'Enter') return;
-    // handleSubmit(handleSave)();
-  };
-
   return {
-    state: {
-      isEditing,
-      inputRef,
-      editedTaskText,
-      setIsEditing,
-      setEditedTaskText,
-    },
-    action: {
-      handleEdit,
-      handleSave,
-      handleReset,
-      handleKeyDown
-    },
-    validation: {
-      errors,
-      register,
-      handleSubmit
-    }
+    isEditing,
+    inputRef,
+    editedTaskText,
+    setIsEditing,
+    setEditedTaskText,
+    handleEdit,
+    handleSave,
+    handleReset,
+    errors,
+    register,
+    handleSubmit
   };
 };
 

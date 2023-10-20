@@ -1,3 +1,4 @@
+import { ResponseTodoType, TodosStateType } from '@/types';
 import {
   DragEndEvent,
   KeyboardSensor,
@@ -10,13 +11,12 @@ import {
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { ResponseTodoType, TodosStateType } from '@/types';
-import useTodoToast from './useTodoToast';
+import { useToast } from '../../../hooks';
 
 const useSort = ({ todos, setTodos }: TodosStateType) => {
 
   const { changeIndex } = useFirebaseApi();
-  const toast = useTodoToast();
+  const toast = useToast();
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -49,10 +49,7 @@ const useSort = ({ todos, setTodos }: TodosStateType) => {
     }
   };
 
-  return {
-    state: { todos, sensors },
-    action: { handleDragEnd }
-  };
+  return { todos, sensors, handleDragEnd };
 };
 
 export default useSort;
