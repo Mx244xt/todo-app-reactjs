@@ -43,7 +43,7 @@ const InputPassword = ({ title, id, register, errors, placeholder }: InputPasswo
           placeholder={placeholder}
         />
         <button className="w-7 -ml-11" type="button" onClick={switchShowPassword}>
-          {showPassword ? <img src="/images/showPassword.png" alt="show" /> : <img src="/images/password.png" alt="hidden" />} 
+          {showPassword ? <img src="/images/showPassword.png" alt="" /> : <img src="/images/password.png" alt="" />} 
         </button>
       </div>
       <p className='text-red-400'>{error}</p>
