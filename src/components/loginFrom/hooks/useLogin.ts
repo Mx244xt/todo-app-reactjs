@@ -11,12 +11,8 @@ const useLogin = () => {
   const { isLoading, startLoding, stopLoding } = useLoading();
   const [userState, setUserState] = useState("");
   const navigate = useNavigate();
-  const { logIn, logOut } = useCookiesHooks();
+  const { logIn } = useCookiesHooks();
   const { signInEmailPassword } = useFirebaseApi();
-
-  useEffect(() => {
-    logOut();
-  }, []);
 
   useEffect(() => {
     if (userState) {
@@ -54,7 +50,6 @@ const useLogin = () => {
       }, 5000);
     }
   };
-
 
   const newAccount = () => {
     navigate("createAccount");
