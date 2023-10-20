@@ -1,5 +1,5 @@
-import { EventButton } from "./components/uiComponents";
-import { useCookiesHooks } from "./hooks";
+import { EventButton } from "../components/uiComponents";
+import { useCookiesHooks } from "../hooks";
 
 const Error500 = () => {
   const { logOut } = useCookiesHooks();

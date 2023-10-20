@@ -1,5 +1,5 @@
-import BackgroundImage from './components/base/BackgroundImage';
-import LoginForm from './components/loginFrom/LoginForm';
+import BackgroundImage from '../components/base/BackgroundImage';
+import LoginForm from '../components/loginFrom/LoginForm';
 
 function TopPage() {
   return (

@@ -1,6 +1,6 @@
-import BackgroundImage from './components/base/BackgroundImage';
-import { Header, TodoBody } from './components/todoForm';
-import { ConfirmationDialogProvider } from './providers/ConfirmationDialogContext';
+import BackgroundImage from '../components/base/BackgroundImage';
+import { Header, TodoBody } from '../components/todoForm';
+import { ConfirmationDialogProvider } from '../providers/ConfirmationDialogContext';
 
 const TodoFrom = () => {
   return (

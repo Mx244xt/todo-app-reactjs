@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CreateAccount from "../CreateAccount";
-import Error500 from "../Error500";
-import TodoFrom from "../TodoFrom";
-import TopPage from "../TopPage";
+import CreateAccount from "../pages/CreateAccount";
+import Error500 from "../pages/Error500";
+import TodoFrom from "../pages/TodoFrom";
+import TopPage from "../pages/TopPage";
 
 export const RouterConfig: React.FC = () => {
   return (
