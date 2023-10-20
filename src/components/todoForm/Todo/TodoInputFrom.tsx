@@ -1,3 +1,4 @@
+import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { UseFormRegister } from "react-hook-form";
 
 interface TodoInputFromType {
@@ -6,14 +7,14 @@ interface TodoInputFromType {
   editedTaskText: string;
   inputRef: React.MutableRefObject<HTMLInputElement | null>;
   register: UseFormRegister<{ todo: string; }>;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   setEditedTaskText: React.Dispatch<React.SetStateAction<string>>;
+  listeners: SyntheticListenerMap | undefined;
 }
-const TodoInputFrom = ({ isEditing, editedTaskText, isCompleted, inputRef, register, handleKeyDown, setEditedTaskText }: TodoInputFromType) => {
+const TodoInputFrom = ({ isEditing, editedTaskText, isCompleted, inputRef, listeners, register, setEditedTaskText }: TodoInputFromType) => {
   const { ref, onChange, ...regist } = register('todo');
 
   return (
-    <div className='flex items-center pr-2  w-80'>
+    <div className='flex items-center pr-2  w-80' >
       {isEditing ? (
         <input
           {...regist}
@@ -28,14 +29,13 @@ const TodoInputFrom = ({ isEditing, editedTaskText, isCompleted, inputRef, regis
             onChange(e);
           }}
           value={editedTaskText}
-          onKeyDown={handleKeyDown}
           placeholder='変更するタスクを入力してください。'
         />
       ) : (
         isCompleted ? (
-          <span className='text-gray-400 line-through flex items-center break-all'>{editedTaskText}</span>
+          <span className='text-gray-400 line-through flex items-center break-all cursor-pointer' {...listeners}>{editedTaskText}</span>
         ) : (
-          <span className='text-black flex items-center break-all'>{editedTaskText}</span>
+          <span className='text-black flex items-center break-all cursor-pointer' {...listeners}>{editedTaskText}</span>
         )
       )
       }

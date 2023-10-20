@@ -2,7 +2,7 @@ interface BackImageType {
   url: string;
 }
 
-const BackgroundImage = ({ url }:BackImageType) => {
+const BackgroundImage = ({ url }: BackImageType) => {
   return (
     <div className='absolute lg:relative -z-10'>
       <picture>

@@ -11,59 +11,41 @@ import useEditTodo from './hooks/useEditTodo';
 
 const Todo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
 
-  const {
-    attributes, listeners, setNodeRef, transform, transition
-  } = useSortable({
+  const sortProps = useSortable({
     id: todo.id
   });
+  
+  const transition = sortProps.transition;
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Transform.toString(sortProps.transform),
     transition,
   };
 
-  const {
-    state: { isEditing, editedTaskText, inputRef, setEditedTaskText },
-    action: { handleEdit, handleKeyDown, handleSave, handleReset },
-    validation: { errors, register, handleSubmit }
-  } = useEditTodo({ todo });
-
-  const { state: { isCompleted }, action: { handleCompleted } } = useCompleted({ todo });
-
-  const { action: { handleDelete } } = useDeleteTodo({ todo, onAddTodo, onDeleteTodo });
+  const editProps = useEditTodo({ todo });
+  const completedProps = useCompleted({ todo });
+  const deleteProps = useDeleteTodo({ todo, onAddTodo, onDeleteTodo });
 
   return (
     <>
-      <form onSubmit={handleSubmit(handleSave)} ref={setNodeRef} style={style} className='flex items-center justify-between  bg-white border-l-4 border-blue-500 rounded shadow relative'>
+      <form onSubmit={editProps.handleSubmit(editProps.handleSave)} ref={sortProps.setNodeRef} style={style} className='flex items-center justify-between  bg-white border-l-4 border-blue-500 rounded shadow relative touch-none'>
         <TodoSrot
-          attributes={attributes}
-          listeners={listeners}
-          transform={transform}
-          transition={transition}
+          id={todo.id}
+          {...sortProps}
         />
         <TodoCheckbox
-          isCompleted={isCompleted}
-          handleCompleted={handleCompleted}
+          {...completedProps}
         />
         <TodoInputFrom
-          isEditing={isEditing}
-          isCompleted={isCompleted}
-          editedTaskText={editedTaskText}
-          inputRef={inputRef}
-          register={register}
-          handleKeyDown={handleKeyDown}
-          setEditedTaskText={setEditedTaskText}
+          {...sortProps}
+          {...completedProps}
+          {...editProps}
         />
         <TodoButton
-          isEditing={isEditing}
-          handleSave={handleSave}
-          handleSubmit={handleSubmit}
-          handleEdit={handleEdit}
-          handleReset={handleReset}
-          handleDelete={handleDelete}
-        />
+          {...editProps}
+          {...deleteProps} />
       </ form>
-      <p className='text-red-400'>{errors.todo?.message}</p>
+      <p className='text-red-400'>{editProps.errors.todo?.message}</p>
     </>
   );
 };
