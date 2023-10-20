@@ -13,10 +13,9 @@ const TodoBody = () => {
 
   useEffect(() => {
     if (todos.length > 0) {
-      clearErrors("todoList");
-    } else {
-      todoNotFound();
+      return clearErrors("todoList");
     }
+    todoNotFound();
   }, [todos]);
 
   return (

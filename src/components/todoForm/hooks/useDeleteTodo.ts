@@ -17,8 +17,12 @@ const useDeleteTodo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
     onDeleteTodo(todo.id);
     const id = toast.loadingToast();
     const response: ResponseTodoType = await deleteTodo({ uid: todo.uid, id: todo.id });
-    if (response.statusCode === 200) return toast.successToast(id);
-    if (response.statusCode === 204) return toast.successToast(id);
+    if (response.statusCode === 200) {
+      return toast.successToast(id);
+    }
+    if (response.statusCode === 204) {
+      return toast.successToast(id);
+    }
     onAddTodo(stockTask);
     toast.errorToast(id);
     return;

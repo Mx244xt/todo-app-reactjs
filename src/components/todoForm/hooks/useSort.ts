@@ -44,6 +44,7 @@ const useSort = ({ todos, setTodos }: TodosStateType) => {
         return;
       }
       toast.successToast(id);
+      return;
     } catch (error) {
       toast.errorToast(id);
     }

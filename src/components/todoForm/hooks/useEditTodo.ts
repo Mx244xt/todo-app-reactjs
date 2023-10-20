@@ -27,6 +27,7 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
   useEffect(() => {
     if (isEditing) {
       inputRef.current?.focus();
+      return;
     }
   }, [isEditing]);
 
@@ -47,6 +48,7 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
         return;
       }
       toast.successToast(id);
+      return;
     } catch (error) {
       setEditedTaskText(todo.text);
       toast.errorToast(id);

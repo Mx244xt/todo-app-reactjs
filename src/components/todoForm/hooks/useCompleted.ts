@@ -23,6 +23,7 @@ const useCompleted = ({ todo }: { todo: TodoType }) => {
         return;
       }
       toast.successToast(id);
+      return;
     } catch (error) {
       setIsCmpleted(isCompleted);
       toast.errorToast(id);

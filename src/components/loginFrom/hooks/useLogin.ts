@@ -38,26 +38,29 @@ const useLogin = () => {
     const { email, password } = data;
     const response: ResponseAccountType = await signInEmailPassword({ email, password });
     if (response.statusCode === 200) {
-      setUserState(response.uid);
-    } else {
-      setError("password", {
-        type: "manual",
-        message: "メールアドレスまたは、パスワードが間違っています。",
-      });
-      stopLoding();
-      setTimeout(() => {
-        clearErrors("password");
-      }, 5000);
+      return setUserState(response.uid);
     }
+    setError("password", {
+      type: "manual",
+      message: "メールアドレスまたは、パスワードが間違っています。",
+    });
+    stopLoding();
+    setTimeout(() => {
+      clearErrors("password");
+    }, 5000);
   };
 
   const newAccount = () => {
     navigate("createAccount");
   };
 
+  const passwordReset = () => {
+    navigate("passwordReset");
+  };
+
   return {
     state: { isLoading, errors },
-    action: { register, handleSubmit, loginEmail, newAccount }
+    action: { register, handleSubmit, loginEmail, newAccount, passwordReset }
   };
 };
 

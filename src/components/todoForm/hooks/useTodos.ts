@@ -31,14 +31,21 @@ const useTodos = ({ todos, setTodos }: TodosStateType) => {
     startLoding();
     const fetchData = async () => {
       try {
-        if (cookies.uid == null) return logOut();
+        if (cookies.uid == null) {
+          logOut();
+          return;
+        }
         elapsedTime();
         const response: ResponseTodoType = await getTodoList(cookies.uid);
-        if (response.statusCode !== 200) return getError();
+        if (response.statusCode !== 200) {
+          getError();
+          return;
+        }
         const todoList = JSON.parse(response.todoList);
         if (todoList.length <= 0) return;
         const sortList = todoList.sort((a: TodoType, b: TodoType) => a.index - b.index);
         setTodos(sortList);
+        return;
       } catch (error) {
         getError();
       } finally {

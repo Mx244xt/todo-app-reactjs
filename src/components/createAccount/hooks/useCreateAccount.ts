@@ -1,9 +1,9 @@
 
 import { ResponseAccountType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createAccountFormType, createAccountFormValidationShema } from '../../..//lib/validationShema';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { accountFormType, accountFormValidationShema } from '../../..//lib/validationShema';
 import useFirebaseApi from '../../../api/useFirebaseApi';
 import { useCookiesHooks, useLoading } from '../../../hooks';
 
@@ -18,21 +18,23 @@ const useCreateAccount = () => {
     formState: { errors },
     setError,
     clearErrors,
-  } = useForm<createAccountFormType>({
+  } = useForm<accountFormType>({
     mode: 'onChange',
-    resolver: zodResolver(createAccountFormValidationShema)
+    resolver: zodResolver(accountFormValidationShema)
   });
 
   const backToLoginForm = () => {
     navigate('/');
   };
 
-  const createAccount: SubmitHandler<createAccountFormType> = async (data) => {
+  const createAccount: SubmitHandler<accountFormType> = async (data) => {
     startLoding();
     const response: ResponseAccountType = await createEmailAccount(data);
     if (response.statusCode === 200) {
       logIn(response.uid);
-    } else if (response.statusCode === 403) {
+      return;
+    }
+    if (response.statusCode === 403) {
       setError("passwordConfirm", {
         type: "manual",
         message: "このメールアドレスはすでに使用されています。",
@@ -41,6 +43,7 @@ const useCreateAccount = () => {
       setTimeout(() => {
         clearErrors("password");
       }, 5000);
+      return;
     }
   };
 

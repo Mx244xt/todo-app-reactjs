@@ -68,6 +68,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
         return;
       }
       toast.successToast(ToastId);
+      return;
     } catch (error) {
       onDeleteTodo(data.id);
       badResponse();
@@ -81,6 +82,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
         setTimeout(() => {
           clearErrors("todo");
         }, 3000);
+        return;
       }
     });
   }, [errors.todo]);
