@@ -4,6 +4,8 @@ import CreateAccount from "../pages/CreateAccount";
 import Error500 from "../pages/Error500";
 import TodoFrom from "../pages/TodoFrom";
 import TopPage from "../pages/TopPage";
+import PasswordReset from "../pages/PasswordReset";
+import SendPasswordReset from "../pages/SendPasswordReset";
 
 export const RouterConfig: React.FC = () => {
   return (
@@ -12,6 +14,8 @@ export const RouterConfig: React.FC = () => {
         <Route index element={<TopPage />} />
         <Route path="/" element={<TopPage />} />
         <Route path="createAccount" element={<CreateAccount />} />
+        <Route path="sendPasswordReset" element={<SendPasswordReset />} />
+        <Route path="passwordReset" element={<PasswordReset />} />
         <Route path="todos" element={<TodoFrom />} />
         <Route path="Internal-Server-Error" element={<Error500 />} />
       </Routes>
