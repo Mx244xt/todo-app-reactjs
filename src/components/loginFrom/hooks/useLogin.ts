@@ -55,7 +55,7 @@ const useLogin = () => {
   };
 
   const passwordReset = () => {
-    navigate("passwordReset");
+    navigate("sendPasswordReset");
   };
 
   return {
