@@ -5,30 +5,33 @@ const PASSWORD = new RegExp("^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.
 export const LoginFormValidationShema = z.object({
   email: z
     .string()
-    .nonempty("メールアドレスは必須です。")
+    .nonempty("メールアドレスを入力してください。")
     .email("メールアドレス形式で入力してください。"),
   password: z
     .string()
-    .nonempty("パスワードは必須です。"),
+    .nonempty("パスワードを入力してください。"),
   login: z
     .unknown()
 });
 
 export type LoginFormType = z.infer<typeof LoginFormValidationShema>;
 
-export const createAccountFormValidationShema = z.object({
+export const accountFormValidationShema = z.object({
+  confirmCode: z
+    .string()
+    .nonempty("確認コードを入力してください。"),
   email: z
     .string()
-    .nonempty("メールアドレスは必須です。")
+    .nonempty("メールアドレスを入力してください。")
     .email("メールアドレス形式で入力してください。"),
   password: z
     .string()
-    .nonempty("パスワードは必須です。")
+    .nonempty("パスワードを入力してください。")
     .min(6, "パスワードは6文字以上で入力してください。")
     .regex(PASSWORD, "英大文字,英小文字,数字,記号をのうち3種類を含めてください。"),
   passwordConfirm: z
     .string()
-    .nonempty("パスワード確認は必須です。")
+    .nonempty("パスワード確認を入力してください。"),
 })
   .superRefine(({ password, passwordConfirm }, ctx) => {
     if (password !== passwordConfirm) {
@@ -37,23 +40,24 @@ export const createAccountFormValidationShema = z.object({
         code: 'custom',
         message: 'パスワードとパスワード確認が一致しません',
       });
+      return;
     }
   });
 
-export type createAccountFormType = z.infer<typeof createAccountFormValidationShema>;
+export type accountFormType = z.infer<typeof accountFormValidationShema>;
 
 export const todoValidationShema = z.object({
   todo: z
     .string()
     .min(1, "１文字以上入力してください。")
-    .max(25,"25文字以内で入力してください。")
+    .max(25, "25文字以内で入力してください。")
 });
 
 export type todoFormType = z.infer<typeof todoValidationShema>;
 
 export const TodoListValidationShema = z.object({
   todoList: z
-  .unknown()
+    .unknown()
 });
 
 export type todoListType = z.infer<typeof TodoListValidationShema>;
