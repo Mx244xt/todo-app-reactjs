@@ -31,10 +31,7 @@ const useTodos = ({ todos, setTodos }: TodosStateType) => {
     startLoding();
     const fetchData = async () => {
       try {
-        if (cookies.uid == null) {
-          logOut();
-          return;
-        }
+        if (cookies.uid == null) return;
         elapsedTime();
         const response: ResponseTodoType = await getTodoList(cookies.uid);
         if (response.statusCode !== 200) {
