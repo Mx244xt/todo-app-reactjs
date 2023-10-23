@@ -1,18 +1,24 @@
 import { useState } from 'react';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks, useToast } from '../../../hooks';
+import { useToast } from '../../../hooks';
 import { ResponseTodoType, TodoType } from '../../../types';
+import useTodoValidation from './useTodoValidation';
 
 
 const useCompleted = ({ todo }: { todo: TodoType }) => {
 
-  const { updateSessionTime } = useCookiesHooks();
   const { checkedTodo } = useFirebaseApi();
   const [isCompleted, setIsCmpleted] = useState(todo.completed);
   const toast = useToast();
+  const validation = useTodoValidation();
+  const { cookies, errors } = validation;
 
   const handleCompleted = async () => {
-    updateSessionTime();
+    validation.sessionCheck();
+    if (cookies.uid == null) {
+      validation.idHasExpired();
+      return;
+    }
     setIsCmpleted(!isCompleted);
     const id = toast.loadingToast();
     try {
@@ -30,7 +36,7 @@ const useCompleted = ({ todo }: { todo: TodoType }) => {
     }
   };
 
-  return { isCompleted, handleCompleted, };
+  return { isCompleted, handleCompleted, errors };
 };
 
 export default useCompleted;

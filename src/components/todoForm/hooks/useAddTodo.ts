@@ -1,52 +1,28 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks, useToast } from '../../../hooks';
-import { todoFormType, todoValidationShema } from '../../../lib/validationShema';
+import { useToast } from '../../../hooks';
+import { todoFormType } from '../../../lib/validationShema';
 import { ResponseTodoType, TodosStateType } from '../../../types';
 import useTodos from './useTodos';
+import useTodoValidation from './useTodoValidation';
 
 const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
 
   const { onAddTodo, onDeleteTodo } = useTodos({ todos, setTodos });
-  const { cookies, logOut, updateSessionTime } = useCookiesHooks();
   const { addTodo } = useFirebaseApi();
   const toast = useToast();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setError,
-    resetField,
-    clearErrors,
-  } = useForm<todoFormType>({
-    mode: 'onSubmit',
-    resolver: zodResolver(todoValidationShema),
-  });
-
-  const badResponse = () => setError("todo", {
-    type: "manual",
-    message: "データの作成に失敗しました。",
-  });
-
-  const idExpired = () => setError("todo", {
-    type: "manual",
-    message: "IDの有効期限が切れています。",
-  });
+  const validation = useTodoValidation();
+  const { cookies, errors, register, handleSubmit } = validation;
 
   const handleAddTodo: SubmitHandler<todoFormType> = async ({ todo }: { todo: string }) => {
-    resetField("todo");
-    updateSessionTime();
+    validation.sessionCheck();
     if (cookies.uid == null) {
-      idExpired();
-      setTimeout(() => {
-        clearErrors("todo");
-        logOut();
-      }, 3000);
+      validation.idHasExpired();
       return;
     }
+    validation.resetField("todo");
     const id = uuidv4();
     const data = {
       id: id,
@@ -63,7 +39,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
       const response: ResponseTodoType = await addTodo({ id: id, index: 0, text: todo, uid: cookies.uid });
       if (response.statusCode !== 200) {
         onDeleteTodo(data.id);
-        badResponse();
+        validation.badResponse();
         toast.errorToast(ToastId);
         return;
       }
@@ -71,7 +47,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
       return;
     } catch (error) {
       onDeleteTodo(data.id);
-      badResponse();
+      validation.badResponse();
       toast.errorToast(ToastId);
     }
   };
@@ -80,7 +56,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
     window.addEventListener('click', () => {
       if (errors.todo) {
         setTimeout(() => {
-          clearErrors("todo");
+          validation.clearErrors("todo");
         }, 3000);
         return;
       }

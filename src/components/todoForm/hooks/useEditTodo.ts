@@ -1,28 +1,20 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks, useToast } from '../../../hooks';
-import { todoFormType, todoValidationShema } from '../../../lib/validationShema';
+import { useToast } from '../../../hooks';
 import { ResponseTodoType, TodoType } from '../../../types';
+import useTodoValidation from './useTodoValidation';
 
 const useEditTodo = ({ todo }: { todo: TodoType }) => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { updateSessionTime } = useCookiesHooks();
   const { editTodo } = useFirebaseApi();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTaskText, setEditedTaskText] = useState(todo.text);
   const [stockTaskText, setStockTaskText] = useState(todo.text);
   const toast = useToast();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<todoFormType>({
-    mode: 'onChange',
-    resolver: zodResolver(todoValidationShema)
-  });
+  const validation = useTodoValidation();
+  const { cookies, errors, register, handleSubmit } = validation;
+
 
   useEffect(() => {
     if (isEditing) {
@@ -37,7 +29,11 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
   };
 
   const handleSave = async () => {
-    updateSessionTime();
+    validation.sessionCheck();
+    if (cookies.uid == null) {
+      validation.idHasExpired();
+      return;
+    }
     setIsEditing(false);
     const id = toast.loadingToast();
     try {

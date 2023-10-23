@@ -46,7 +46,7 @@ const useToast = () => {
       hideProgressBar: true
     });
   };
-
+  
   return { loadingToast, successToast, errorToast, logInToast, logOutToast };
 };
 
