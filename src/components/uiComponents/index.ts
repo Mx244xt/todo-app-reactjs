@@ -1,8 +1,8 @@
-import EventButton from "./EventButton";
-import SubmitButton from "./SubmitButton";
+import ButtonFrom from "./ButtonFrom";
 import InputForm from "./InputForm";
 import InputPassword from "./InputPassword";
 import Loading from "./Loading";
 import Title from "./Title";
 
-export { EventButton, SubmitButton, InputForm, InputPassword, Loading, Title };
+export { ButtonFrom, InputForm, InputPassword, Loading, Title };
+

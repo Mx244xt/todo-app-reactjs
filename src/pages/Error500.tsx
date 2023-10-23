@@ -1,4 +1,4 @@
-import { EventButton } from "../components/uiComponents";
+import { ButtonFrom } from "../components/uiComponents";
 import { useCookiesHooks } from "../hooks";
 
 const Error500 = () => {
@@ -13,7 +13,7 @@ const Error500 = () => {
         <p className="mb-5 text-black">管理者へお問い合わせください。</p>
         <p className="mb-5 text-black"></p>
         <div className=" w-64">
-          <EventButton title="TOPページ" type="button" textColor="text-white" bgColor="bg-gray-500" icon="" clickEvent={backToTop} disabled={false} />
+          <ButtonFrom title="TOPページ" type="button" textColor="text-white" bgColor="bg-gray-500" icon="" clickEvent={backToTop} disabled={false} />
         </div>
       </div>
     </div>
