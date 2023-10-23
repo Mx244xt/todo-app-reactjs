@@ -1,60 +1,67 @@
 import FormBody from '../base/FormBody';
-import { EventButton, InputForm, InputPassword, Loading, SubmitButton, Title } from '../uiComponents';
+// import ModalButton from '../dialog/ModalButton';
+// import ModalDialog from '../dialog/ModalDialog';
+import { ButtonFrom, InputForm, InputPassword, Loading } from '../uiComponents';
 import useCreateAccount from './hooks/useCreateAccount';
+// import TermsOfUse from '../../lib/TermsOfUse';
 
 const CreateAccountFrom = () => {
   const {
-    state: { isLoading, errors },
-    action: { register, handleSubmit, backToLoginForm, createAccount }
+    state: { isLoading, isChecked, errors },
+    action: { handleCheck, register, handleSubmit, backToLoginForm, createAccount }
   } = useCreateAccount();
   return (
-    <FormBody>
-      <Title title="アカウントの新規作成" />
-      <div className='w-full max-w-xl mt-5 px-5'>
-        <form className="w-full px-8 py-6 bg-white shadow-md rounded-lg" onSubmit={handleSubmit(createAccount)}>
-          <InputForm
-            title="メールアドレス"
-            type="email"
-            id="email"
-            register={register("email")}
-            errors={errors}
-            placeholder='登録するメールアドレスを入力してください。'
-          />
-          <InputPassword
-            title="パスワード"
-            id="password"
-            register={register("password")}
-            errors={errors}
-            placeholder='登録するパスワードを入力してください。'
-          />
-          <InputPassword
-            title="パスワード確認"
-            id="passwordConfirm"
-            register={register("passwordConfirm")}
-            errors={errors}
-            placeholder='もう一度パスワードを入力してください。'
-          />
-          <div className='m-5'></div>
-          {isLoading && <Loading />}
-          <SubmitButton
-            title="新規アカウント作成"
-            icon='/images/create_user_icon.png'
-            textColor="text-white"
-            bgColor='bg-blue-500'
-            disabled={false}
-          />
-          <div className='m-5'></div>
-          <EventButton
-            title="戻る"
-            type="button"
-            icon='/images/back_icon.png'
-            textColor="text-black"
-            bgColor='bg-slate-300'
-            clickEvent={backToLoginForm}
-            disabled={false}
-          />
-        </form>
-      </div>
+    <FormBody title='アカウントの新規作成' submitEvent={handleSubmit(createAccount)}>
+      <InputForm
+        title="メールアドレス"
+        type="email"
+        id="email"
+        register={register("email")}
+        errors={errors}
+        placeholder='todo@example.com'
+      />
+      <InputPassword
+        title="パスワード"
+        id="password"
+        register={register("password")}
+        errors={errors}
+        placeholder='Abc@1234'
+      />
+      <InputPassword
+        title="パスワード確認"
+        id="passwordConfirm"
+        register={register("passwordConfirm")}
+        errors={errors}
+        placeholder='Abc@1234'
+      />
+      <div className='m-3'></div>
+      {/* <div className='flex flex-row'>
+        <input id='agree' className='mr-1' type='checkbox' onClick={handleCheck} />
+        <div className='flex mb-1 flex-col md:flex-row'>
+          <ModalButton title="利用規約と" message="利用規約" />
+          <ModalButton title="プライバシーポリシー" message='プライバシーポリシー' /><p>に同意する。</p>
+          <ModalDialog action={handleCheck} />
+        </div>
+      </div> */}
+      {isLoading && <Loading />}
+      <ButtonFrom
+        title="新規アカウント作成"
+        type="submit"
+        icon='/images/create_user_icon.png'
+        textColor="text-white"
+        bgColor='bg-blue-500'
+        disabled={isChecked}
+      />
+      <div className='m-5'></div>
+      <ButtonFrom
+        title="戻る"
+        type="button"
+        icon='/images/back_icon.png'
+        textColor="text-black"
+        bgColor='bg-slate-300'
+        clickEvent={backToLoginForm}
+        disabled={false}
+      />
     </FormBody>
   );
 };
