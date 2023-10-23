@@ -34,6 +34,7 @@ const InputForm = ({ title, type, id, register, errors, placeholder }: InputProp
         id={id}
         {...register}
         placeholder={placeholder}
+        autoComplete="email"
       />
       <p className='text-red-400'>{error}</p>
     </>
