@@ -1,3 +1,4 @@
+
 import { ResponseTodoType, TodoType } from '@/types';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -23,7 +24,6 @@ const TodoFrom = () => {
 
   useEffect(() => {
     elapsedTime();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const blockBrowserBack = useCallback(() => {
@@ -57,7 +57,7 @@ const TodoFrom = () => {
             const sortList = todoList.sort((a: any, b: any) => b.updateAt.seconds - a.updateAt.seconds);
             setTodos(sortList);
           } else {
-            setError("todoList", {
+            setError("todoList",{
               type: "manual",
               message: "データが取得できませんでした。",
             })
@@ -71,7 +71,6 @@ const TodoFrom = () => {
       };
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies.uid]);
 
   const addTodo = (newTodo: TodoType) => {
