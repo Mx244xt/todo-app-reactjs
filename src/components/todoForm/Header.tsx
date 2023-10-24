@@ -1,6 +1,6 @@
 
 import { useCookiesHooks } from '../../hooks';
-import { ConfirmButton, ConfirmationDialog } from '../confirm';
+import { ConfirmButton, ConfirmDialog } from '../dialog';
 
 const Header = () => {
   const { logOut } = useCookiesHooks();
@@ -8,9 +8,9 @@ const Header = () => {
   return (
     <div className='absolute top-0 w-full'>
       <div className='absolute right-0 py-2 px-5'>
-        <ConfirmButton title="サインアウト" message='サインアウトしてよろしいですか？' icon="/images/logout_white_icon.png" />
+        <ConfirmButton title="サインアウト" message={"サインアウトしてよろしいですか？"} icon="/images/logout_white_icon.png" />
       </div>
-      <ConfirmationDialog action={logOut} />
+      <ConfirmDialog action={logOut} />
     </div>
   );
 };
