@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { accountFormType, accountFormValidationShema } from '../../..//lib/validationShema';
 import useFirebaseApi from '../../../api/useFirebaseApi';
 import { useCookiesHooks, useLoading } from '../../../hooks';
+import { useState } from 'react';
 
 const useCreateAccount = () => {
   const navigate = useNavigate();
   const { isLoading, startLoding, stopLoding } = useLoading();
   const { logIn } = useCookiesHooks();
   const { createEmailAccount } = useFirebaseApi();
+  const [isChecked, setIsChecked] = useState(true);
   const {
     register,
     handleSubmit,
@@ -22,6 +24,10 @@ const useCreateAccount = () => {
     mode: 'onChange',
     resolver: zodResolver(accountFormValidationShema)
   });
+
+  const handleCheck = () => {
+    setIsChecked(!isChecked);
+  };
 
   const backToLoginForm = () => {
     navigate('/');
@@ -48,8 +54,8 @@ const useCreateAccount = () => {
   };
 
   return {
-    state: { isLoading, errors },
-    action: { register, handleSubmit, backToLoginForm, createAccount }
+    state: { isLoading, isChecked, errors },
+    action: { register, handleSubmit, backToLoginForm, createAccount, handleCheck }
   };
 };
 
