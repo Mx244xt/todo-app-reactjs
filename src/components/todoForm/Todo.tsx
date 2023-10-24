@@ -14,7 +14,7 @@ const Todo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
   const sortProps = useSortable({
     id: todo.id
   });
-  
+
   const transition = sortProps.transition;
 
   const style = {
@@ -43,9 +43,11 @@ const Todo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
         />
         <TodoButton
           {...editProps}
+          {...completedProps}
           {...deleteProps} />
       </ form>
       <p className='text-red-400'>{editProps.errors.todo?.message}</p>
+      <p className='text-red-400'>{completedProps.errors.todo?.message}</p>
     </>
   );
 };
