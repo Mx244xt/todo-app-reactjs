@@ -1,9 +1,10 @@
 import FormBody from '../base/FormBody';
-// import ModalButton from '../dialog/ModalButton';
-// import ModalDialog from '../dialog/ModalDialog';
+import ModalButton from '../dialog/ModalButton';
+import ModalDialog from '../dialog/ModalDialog';
 import { ButtonFrom, InputForm, InputPassword, Loading } from '../uiComponents';
 import useCreateAccount from './hooks/useCreateAccount';
-// import TermsOfUse from '../../lib/TermsOfUse';
+import TermsOfUse from '../../lib/TermsOfUse';
+import PrivacyPolicy from '../../lib/PrivacyPolicy';
 
 const CreateAccountFrom = () => {
   const {
@@ -35,14 +36,14 @@ const CreateAccountFrom = () => {
         placeholder='Abc@1234'
       />
       <div className='m-3'></div>
-      {/* <div className='flex flex-row'>
+      <div className='flex flex-row'>
         <input id='agree' className='mr-1' type='checkbox' onClick={handleCheck} />
         <div className='flex mb-1 flex-col md:flex-row'>
-          <ModalButton title="利用規約と" message="利用規約" />
-          <ModalButton title="プライバシーポリシー" message='プライバシーポリシー' /><p>に同意する。</p>
+          <ModalButton title="利用規約と" message={TermsOfUse()} />
+          <ModalButton title="プライバシーポリシー" message={PrivacyPolicy()} /><p>に同意する。</p>
           <ModalDialog action={handleCheck} />
         </div>
-      </div> */}
+      </div>
       {isLoading && <Loading />}
       <ButtonFrom
         title="新規アカウント作成"
