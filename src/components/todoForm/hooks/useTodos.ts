@@ -8,7 +8,7 @@ import { todoListType } from '../../../lib/validationShema';
 
 const useTodos = ({ todos, setTodos }: TodosStateType) => {
   const { isLoading, startLoding, stopLoding } = useLoading();
-  const { cookies, elapsedTime, logOut } = useCookiesHooks();
+  const { cookies, elapsedTime } = useCookiesHooks();
   const { getTodoList } = useFirebaseApi();
   const {
     formState: { errors },
