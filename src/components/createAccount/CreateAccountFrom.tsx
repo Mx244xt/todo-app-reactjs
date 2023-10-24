@@ -3,8 +3,8 @@ import ModalButton from '../dialog/ModalButton';
 import ModalDialog from '../dialog/ModalDialog';
 import { ButtonFrom, InputForm, InputPassword, Loading } from '../uiComponents';
 import useCreateAccount from './hooks/useCreateAccount';
-import TermsOfUse from '../../lib/TermsOfUse';
-import PrivacyPolicy from '../../lib/PrivacyPolicy';
+import TermsOfUse from '../../data/TermsOfUse';
+import PrivacyPolicy from '../../data/PrivacyPolicy';
 
 const CreateAccountFrom = () => {
   const {
