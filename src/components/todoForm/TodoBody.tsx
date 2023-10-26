@@ -6,6 +6,7 @@ import FormBody from '../base/FormBody';
 import ShowCompletedDropdown from './ShowCompletedDropdown';
 import useShowCompletedDropdown from './hooks/useShowCompletedDropdown';
 import useGetTodos from './hooks/useGetTodos';
+import ShowTodosSort from './ShowTodosSort';
 
 const TodoBody = () => {
   const [todos, setTodos] = useState<TodoType[]>([]);
@@ -34,7 +35,10 @@ const TodoBody = () => {
         <div className='w-full max-w-xl mt-5 px-5'>
           <div className='w-full px-8 py-6 bg-white shadow-md rounded-lg'>
             <AddTask isLoading={isLoading} todos={todos} setTodos={setTodos} />
-            <ShowCompletedDropdown todos={todos} setDropDownState={setDropDownState} setShowTodos={setShowTodos} />
+            <div className='flex flex-row justify-end'>
+              <ShowCompletedDropdown todos={todos} setDropDownState={setDropDownState} setShowTodos={setShowTodos} />
+              <ShowTodosSort todos={todos} setTodos={setTodos} />
+            </div>
             {!isLoading && errors && <p className=' text-gray-400 flex justify-center'>{errors.todoList?.message}</p>}
             <TodoList todos={todos} showTodos={showTodos} setTodos={setTodos} />
           </div>

@@ -12,7 +12,7 @@ const ShowCompletedDropdown = (props: ShowTodoStateType) => {
   const { handleFilterTodos } = useShowCompletedDropdown(props);
 
   return (
-    <div className="w-full flex flex-row-reverse">
+    <div className="mr-3">
       <select onChange={(e) => handleFilterTodos(e.target.value)} className="border mb-2">
         <option >全て</option>
         <option >未完了</option>

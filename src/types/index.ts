@@ -2,8 +2,14 @@ export interface TodoType {
   id: string;
   index: number;
   text: string;
-  createAt: Date;
-  updateAt: Date;
+  createAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  updateAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
   completed: boolean;
   uid: string;
 }

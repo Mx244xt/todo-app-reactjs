@@ -28,8 +28,14 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
       id: id,
       index: todos.length,
       text: todo,
-      createAt: new Date(),
-      updateAt: new Date(),
+      createAt: {
+        seconds: new Date().getSeconds(),
+        nanoseconds: new Date().getMilliseconds(),
+      },
+      updateAt: {
+        seconds: new Date().getSeconds(),
+        nanoseconds: new Date().getMilliseconds(),
+      },
       completed: false,
       uid: cookies.uid,
     };
