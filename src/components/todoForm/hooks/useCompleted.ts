@@ -5,7 +5,7 @@ import { ResponseTodoType, TodoType } from '../../../types';
 import useTodoValidation from './useTodoValidation';
 
 
-const useCompleted = ({ todo }: { todo: TodoType }) => {
+const useCompleted = ({ todo, onCompletedTodo }: { todo: TodoType, onCompletedTodo: (id: string, completed: boolean) => void }) => {
 
   const { checkedTodo } = useFirebaseApi();
   const [isCompleted, setIsCmpleted] = useState(todo.completed);
@@ -20,6 +20,7 @@ const useCompleted = ({ todo }: { todo: TodoType }) => {
       return;
     }
     setIsCmpleted(!isCompleted);
+    onCompletedTodo(todo.id, !isCompleted);
     const id = toast.loadingToast();
     try {
       const response: ResponseTodoType = await checkedTodo({ uid: todo.uid, id: todo.id, completed: !isCompleted });

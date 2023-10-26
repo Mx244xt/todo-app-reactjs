@@ -1,15 +1,18 @@
+import { TodoType } from '@/types';
 import { useEffect, useState } from 'react';
 import { AddTask, TodoList } from '.';
 import { useBlockBrowserBack } from '../../hooks';
 import FormBody from '../base/FormBody';
-import useTodos from './hooks/useTodos';
-import { TodoType } from '@/types';
 import ShowCompletedDropdown from './ShowCompletedDropdown';
+import useShowCompletedDropdown from './hooks/useShowCompletedDropdown';
+import useGetTodos from './hooks/useGetTodos';
 
 const TodoBody = () => {
   const [todos, setTodos] = useState<TodoType[]>([]);
-  const [showTodo, setShowTodo] = useState<TodoType[]>([]);
-  const { errors, isLoading, clearErrors, todoNotFound } = useTodos({ todos, setTodos });
+  const [showTodos, setShowTodos] = useState<TodoType[]>([]);
+  const [dropDownState, setDropDownState] = useState("");
+  const { handleFilterTodos } = useShowCompletedDropdown({ todos, setDropDownState, setShowTodos });
+  const { errors, isLoading, clearErrors, todoNotFound } = useGetTodos({ setTodos });
   const { blockBrowserBack } = useBlockBrowserBack();
   blockBrowserBack();
 
@@ -20,15 +23,20 @@ const TodoBody = () => {
     todoNotFound();
   }, [todos]);
 
+  useEffect(() => {
+    setShowTodos(todos);
+    handleFilterTodos(dropDownState);
+  }, [todos]);
+
   return (
     <FormBody title={null}>
       <div className="w-full max-w-xl absolute top-16 flex flex-col items-center" >
         <div className='w-full max-w-xl mt-5 px-5'>
           <div className='w-full px-8 py-6 bg-white shadow-md rounded-lg'>
-            <AddTask isLoading={isLoading} todos={showTodo} setTodos={setTodos} />
+            <AddTask isLoading={isLoading} todos={todos} setTodos={setTodos} />
+            <ShowCompletedDropdown todos={todos} setDropDownState={setDropDownState} setShowTodos={setShowTodos} />
             {!isLoading && errors && <p className=' text-gray-400 flex justify-center'>{errors.todoList?.message}</p>}
-            <ShowCompletedDropdown todos={todos} setShowTodo={setShowTodo} />
-            <TodoList todos={showTodo} setTodos={setTodos} />
+            <TodoList todos={todos} showTodos={showTodos} setTodos={setTodos} />
           </div>
         </div>
       </div>

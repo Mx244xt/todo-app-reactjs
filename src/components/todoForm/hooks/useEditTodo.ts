@@ -4,7 +4,7 @@ import { useToast } from '../../../hooks';
 import { ResponseTodoType, TodoType } from '../../../types';
 import useTodoValidation from './useTodoValidation';
 
-const useEditTodo = ({ todo }: { todo: TodoType }) => {
+const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: string, text: string) => void }) => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { editTodo } = useFirebaseApi();
@@ -35,6 +35,7 @@ const useEditTodo = ({ todo }: { todo: TodoType }) => {
       return;
     }
     setIsEditing(false);
+    onEditTodo(todo.id, todo.text);
     const id = toast.loadingToast();
     try {
       const response: ResponseTodoType = await editTodo({ uid: todo.uid, id: todo.id, newText: editedTaskText });

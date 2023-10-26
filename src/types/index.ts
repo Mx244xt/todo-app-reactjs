@@ -22,6 +22,8 @@ export interface TodoPropsType {
   todo: TodoType;
   onAddTodo: (data: TodoType) => void;
   onDeleteTodo: (id: string) => void;
+  onCompletedTodo: (id: string, completed: boolean) => void;
+  onEditTodo: (id: string, text: string) => void;
 }
 
 export interface ResponseTodoType {

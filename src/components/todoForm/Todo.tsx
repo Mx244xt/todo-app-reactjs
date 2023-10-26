@@ -9,10 +9,10 @@ import useCompleted from './hooks/useCompleted';
 import useDeleteTodo from './hooks/useDeleteTodo';
 import useEditTodo from './hooks/useEditTodo';
 
-const Todo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
+const Todo = ({ ...props }: TodoPropsType) => {
 
   const sortProps = useSortable({
-    id: todo.id
+    id: props.todo.id
   });
 
   const transition = sortProps.transition;
@@ -22,15 +22,15 @@ const Todo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
     transition,
   };
 
-  const editProps = useEditTodo({ todo });
-  const completedProps = useCompleted({ todo });
-  const deleteProps = useDeleteTodo({ todo, onAddTodo, onDeleteTodo });
+  const editProps = useEditTodo({ ...props });
+  const completedProps = useCompleted({ ...props });
+  const deleteProps = useDeleteTodo({ ...props });
 
   return (
     <>
       <form onSubmit={editProps.handleSubmit(editProps.handleSave)} ref={sortProps.setNodeRef} style={style} className='flex items-center justify-between  bg-white border-l-4 border-blue-500 rounded shadow relative touch-none'>
         <TodoSrot
-          id={todo.id}
+          id={props.todo.id}
           {...sortProps}
         />
         <TodoCheckbox
