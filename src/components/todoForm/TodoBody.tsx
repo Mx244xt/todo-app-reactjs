@@ -7,12 +7,15 @@ import ShowCompletedDropdown from './ShowCompletedDropdown';
 import useShowCompletedDropdown from './hooks/useShowCompletedDropdown';
 import useGetTodos from './hooks/useGetTodos';
 import ShowTodosSort from './ShowTodosSort';
+import useShowTodosSort from './hooks/useShowTodosSort';
 
 const TodoBody = () => {
   const [todos, setTodos] = useState<TodoType[]>([]);
   const [showTodos, setShowTodos] = useState<TodoType[]>([]);
   const [dropDownState, setDropDownState] = useState("");
+  const [dropDownSortState, setDropDownSortState] = useState("");
   const { handleFilterTodos } = useShowCompletedDropdown({ todos, setDropDownState, setShowTodos });
+  const { handleSortTodos } = useShowTodosSort({ todos, setDropDownSortState, setTodos });
   const { errors, isLoading, clearErrors, todoNotFound } = useGetTodos({ setTodos });
   const { blockBrowserBack } = useBlockBrowserBack();
   blockBrowserBack();
@@ -27,6 +30,7 @@ const TodoBody = () => {
   useEffect(() => {
     setShowTodos(todos);
     handleFilterTodos(dropDownState);
+    handleSortTodos(dropDownSortState);
   }, [todos]);
 
   return (
@@ -37,7 +41,7 @@ const TodoBody = () => {
             <AddTask isLoading={isLoading} todos={todos} setTodos={setTodos} />
             <div className='flex flex-row justify-end'>
               <ShowCompletedDropdown todos={todos} setDropDownState={setDropDownState} setShowTodos={setShowTodos} />
-              <ShowTodosSort todos={todos} setTodos={setTodos} />
+              <ShowTodosSort todos={todos} setDropDownSortState={setDropDownSortState} setTodos={setTodos} />
             </div>
             {!isLoading && errors && <p className=' text-gray-400 flex justify-center'>{errors.todoList?.message}</p>}
             <TodoList todos={todos} showTodos={showTodos} setTodos={setTodos} />
