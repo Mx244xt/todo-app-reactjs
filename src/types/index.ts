@@ -1,3 +1,4 @@
+
 export interface TodoType {
   id: string;
   index: number;
@@ -6,6 +7,8 @@ export interface TodoType {
   updateAt: Date;
   completed: boolean;
   uid: string;
+  memo: string;
+  deadLine: Date;
 }
 
 export interface TodoPropsTypes {
@@ -22,11 +25,13 @@ export interface TodoPropsType {
   todo: TodoType;
   onAddTodo: (data: TodoType) => void;
   onDeleteTodo: (id: string) => void;
+  onCompletedTodo: (id: string, completed: boolean) => void;
+  onEditTodo: (id: string, text: string) => void;
 }
 
 export interface ResponseTodoType {
   statusCode: number;
-  todoList: string & TodoType;
+  todoList: string & TodoType & any;
   message: string;
 }
 

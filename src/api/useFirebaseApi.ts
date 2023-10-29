@@ -16,7 +16,9 @@ interface checkedTodoTypes {
 interface editTodoType {
   uid: string;
   id: string;
-  newText: string
+  newText: string;
+  memo: string;
+  deadLine: Date;
 }
 
 interface deleteTodoType {
@@ -151,12 +153,14 @@ const useFirebaseApi = () => {
     }
   };
 
-  const editTodo = async ({ uid, id, newText }: editTodoType) => {
+  const editTodo = async ({ uid, id, newText, memo, deadLine }: editTodoType) => {
     try {
       const data: editTodoType = {
         uid: uid,
         id: id,
         newText: newText,
+        memo: memo,
+        deadLine: deadLine
       };
 
       const headers = {

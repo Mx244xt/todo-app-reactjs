@@ -41,7 +41,7 @@ const LoginForm: React.FC = () => {
         title={"アカウントの新規作成"}
         type={"button"}
         textColor="text-white"
-        bgColor="bg-slate-500"
+        bgColor={isLoading ? "bg-slate-300" : "bg-slate-500"}
         icon='/images/create_user_icon.png'
         clickEvent={newAccount}
         disabled={isLoading}

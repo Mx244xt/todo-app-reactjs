@@ -5,11 +5,13 @@ import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Loading } from '../uiComponents';
 import useTodos from './hooks/useTodos';
+import useGetTodos from './hooks/useGetTodos';
 
-const TodoList = ({ todos, setTodos }: TodosStateType) => {
+const TodoList = ({ todos, showTodos, setTodos }: TodosStateType & { showTodos: TodoType[] }) => {
 
   const { sensors, handleDragEnd } = useSort({ todos, setTodos });
-  const { isLoading, onAddTodo, onDeleteTodo } = useTodos({ todos, setTodos });
+  const { ...props } = useTodos({ todos, setTodos });
+  const { isLoading } = useGetTodos({ setTodos });
 
   return (
     isLoading
@@ -21,11 +23,11 @@ const TodoList = ({ todos, setTodos }: TodosStateType) => {
           onDragEnd={handleDragEnd}
         >
           <SortableContext
-            items={todos}
+            items={showTodos}
             strategy={verticalListSortingStrategy}
           >
-            {todos.map((todo: TodoType) => (
-              < Todo key={todo.id} todo={todo} onAddTodo={onAddTodo} onDeleteTodo={onDeleteTodo} />
+            {showTodos.map((todo: TodoType) => (
+              < Todo key={todo.id} todo={todo} {...props} />
             ))}
           </SortableContext>
         </DndContext>

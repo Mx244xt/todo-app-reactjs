@@ -1,15 +1,11 @@
 
-import { ResponseTodoType, TodoType, TodosStateType } from '@/types';
-import { useEffect } from 'react';
+import { TodoType, TodosStateType } from '@/types';
 import { useForm } from 'react-hook-form';
-import useFirebaseApi from '../../../api/useFirebaseApi';
-import { useCookiesHooks, useLoading } from '../../../hooks';
+import { useLoading } from '../../../hooks';
 import { todoListType } from '../../../lib/validationShema';
 
 const useTodos = ({ todos, setTodos }: TodosStateType) => {
-  const { isLoading, startLoding, stopLoding } = useLoading();
-  const { cookies, elapsedTime } = useCookiesHooks();
-  const { getTodoList } = useFirebaseApi();
+  const { isLoading } = useLoading();
   const {
     formState: { errors },
     setError,
@@ -21,36 +17,6 @@ const useTodos = ({ todos, setTodos }: TodosStateType) => {
     type: "manual",
     message: "登録されているタスクはありません。",
   });
-
-  const getError = () => setError("todoList", {
-    type: "manual",
-    message: "データが取得できませんでした。",
-  });
-
-  useEffect(() => {
-    startLoding();
-    const fetchData = async () => {
-      try {
-        if (cookies.uid == null) return;
-        elapsedTime();
-        const response: ResponseTodoType = await getTodoList(cookies.uid);
-        if (response.statusCode !== 200) {
-          getError();
-          return;
-        }
-        const todoList = JSON.parse(response.todoList);
-        if (todoList.length <= 0) return;
-        const sortList = todoList.sort((a: TodoType, b: TodoType) => a.index - b.index);
-        setTodos(sortList);
-        return;
-      } catch (error) {
-        getError();
-      } finally {
-        stopLoding();
-      }
-    };
-    fetchData();
-  }, []);
 
   const onAddTodo = (newTodo: TodoType) => {
     setTodos((todos) => [newTodo, ...todos]);
@@ -64,12 +30,26 @@ const useTodos = ({ todos, setTodos }: TodosStateType) => {
     setTodos(updataTodos);
   };
 
+  const onCompletedTodo = (id: string, completed: boolean) => {
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, completed: completed } : todo))
+    );
+  };
+
+  const onEditTodo = (id: string, text: string) => {
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, text: text } : todo))
+    );
+  };
+
   return {
     todos,
     errors,
     isLoading,
     onAddTodo,
     onDeleteTodo,
+    onCompletedTodo,
+    onEditTodo,
     setTodos,
     clearErrors,
     todoNotFound

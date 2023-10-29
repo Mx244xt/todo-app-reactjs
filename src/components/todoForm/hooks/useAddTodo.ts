@@ -32,6 +32,8 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
       updateAt: new Date(),
       completed: false,
       uid: cookies.uid,
+      memo: "",
+      deadLine: new Date(),
     };
     onAddTodo(data);
     const ToastId = toast.loadingToast();

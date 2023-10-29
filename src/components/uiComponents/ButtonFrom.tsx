@@ -21,7 +21,7 @@ type ButtomPropsType = SubmitButtonType | EventButtonType;
 
 const ButtonFrom = ({ ...props }: ButtomPropsType) => {
   return (
-    <div className={`w-full border rounded transform ${props.disabled && 'md:hover:scale-95 duration-300'} flex justify-center items-center text-center border-gray-300 ${props.textColor} ${props.bgColor} hover:${props.bgColor}`}>
+    <div className={`w-full border rounded transform ${!props.disabled && 'md:hover:scale-95 duration-300'} flex justify-center items-center text-center border-gray-300 ${props.textColor} ${props.bgColor} hover:${props.bgColor}`}>
       {props.icon &&
         <div className='h-7 w-7 mx-2'>
           <picture>

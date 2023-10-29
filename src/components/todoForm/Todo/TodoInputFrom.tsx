@@ -34,11 +34,11 @@ const TodoInputFrom = ({ isEditing, editedTaskText, isCompleted, inputRef, liste
           />
         </div>
       ) : (
-        <div className='flex items-center pr-2 h-14 w-80 cursor-pointer' {...listeners} >
+        <div className='flex items-center pr-2 w-80 cursor-pointer' {...listeners} >
           {isCompleted ? (
             <span className='text-gray-400 line-through flex items-center break-all' >{editedTaskText}</span>
           ) : (
-            <span className='text-black flex items-center break-all' >{editedTaskText}</span>
+            <span className='text-black flex items-centr break-all' >{editedTaskText}</span>
           )}
         </div>
       )
