@@ -1,17 +1,14 @@
+
 export interface TodoType {
   id: string;
   index: number;
   text: string;
-  createAt: {
-    seconds: number;
-    nanoseconds: number;
-  };
-  updateAt: {
-    seconds: number;
-    nanoseconds: number;
-  };
+  createAt: Date;
+  updateAt: Date;
   completed: boolean;
   uid: string;
+  memo: string;
+  deadLine: Date;
 }
 
 export interface TodoPropsTypes {
@@ -34,7 +31,7 @@ export interface TodoPropsType {
 
 export interface ResponseTodoType {
   statusCode: number;
-  todoList: string & TodoType;
+  todoList: string & TodoType & any;
   message: string;
 }
 

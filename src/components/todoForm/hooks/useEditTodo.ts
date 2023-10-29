@@ -14,7 +14,16 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
   const toast = useToast();
   const validation = useTodoValidation();
   const { cookies, errors, register, handleSubmit } = validation;
+  const [todoMemo, setTodoMemo] = useState(todo.memo);
+  const [todoDate, setTodoDate] = useState(new Date(todo.deadLine));
 
+  const handleChangeMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoMemo(e.target.value);
+  };
+
+  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoDate(new Date(e.target.value));
+  };
 
   useEffect(() => {
     if (isEditing) {
@@ -38,7 +47,7 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
     onEditTodo(todo.id, todo.text);
     const id = toast.loadingToast();
     try {
-      const response: ResponseTodoType = await editTodo({ uid: todo.uid, id: todo.id, newText: editedTaskText });
+      const response: ResponseTodoType = await editTodo({ uid: todo.uid, id: todo.id, newText: editedTaskText, memo: todoMemo, deadLine: todoDate });
       if (response.statusCode !== 200) {
         setEditedTaskText(todo.text);
         toast.errorToast(id);
@@ -61,11 +70,17 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
     isEditing,
     inputRef,
     editedTaskText,
+    todoMemo,
+    todoDate,
     setIsEditing,
     setEditedTaskText,
+    setTodoMemo,
+    setTodoDate,
     handleEdit,
     handleSave,
     handleReset,
+    handleChangeMemo,
+    handleChangeDate,
     errors,
     register,
     handleSubmit
