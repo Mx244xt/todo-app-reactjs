@@ -1,15 +1,9 @@
-import { useEffect } from "react";
 import { ShowTodosSortType } from "../ShowTodosSort";
 
-const useShowTodosSort = ({ todos, setDropDownSortState, setTodos }: ShowTodosSortType) => {
+const useShowTodosSort = ({ todos, setTodos }: ShowTodosSortType) => {
   const sortedTodos = [...todos];
-  
-  useEffect(()=>{
-    setDropDownSortState('手動');
-  },[]);
-  
+
   const handleSortTodos = (e: string) => {
-    setDropDownSortState(e);
     switch (e) {
       case ("手動"):
         sortedTodos.sort((a, b) => a.index - b.index);

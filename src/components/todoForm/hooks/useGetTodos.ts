@@ -42,7 +42,7 @@ const useGetTodos = ({ setTodos }: { setTodos: React.Dispatch<React.SetStateActi
           getError();
           return;
         }
-        const todoList = JSON.parse(response.todoList);
+        const todoList = response.todoList;
         if (todoList.length <= 0) return;
         const sortList = todoList.sort((a: TodoType, b: TodoType) => a.index - b.index);
         setTodos(sortList);

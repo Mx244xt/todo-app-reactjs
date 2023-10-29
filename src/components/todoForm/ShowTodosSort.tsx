@@ -4,7 +4,6 @@ import useShowTodosSort from "./hooks/useShowTodosSort";
 export interface ShowTodosSortType {
   todos: TodoType[];
   setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
-  setDropDownSortState: React.Dispatch<React.SetStateAction<string>>
 }
 
 const ShowTodosSort = (props: ShowTodosSortType) => {
