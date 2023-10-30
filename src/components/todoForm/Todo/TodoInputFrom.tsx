@@ -1,4 +1,5 @@
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { add, isEqual, sub } from "date-fns";
 import { UseFormRegister } from "react-hook-form";
 
 interface TodoInputFromType {
@@ -9,8 +10,9 @@ interface TodoInputFromType {
   register: UseFormRegister<{ todo: string; }>;
   setEditedTaskText: React.Dispatch<React.SetStateAction<string>>;
   listeners: SyntheticListenerMap | undefined;
+  todoDate: Date;
 }
-const TodoInputFrom = ({ isEditing, editedTaskText, isCompleted, inputRef, listeners, register, setEditedTaskText }: TodoInputFromType) => {
+const TodoInputFrom = ({ todoDate, isEditing, editedTaskText, isCompleted, inputRef, listeners, register, setEditedTaskText }: TodoInputFromType) => {
   const { ref, onChange, ...regist } = register('todo');
 
   return (
@@ -37,9 +39,17 @@ const TodoInputFrom = ({ isEditing, editedTaskText, isCompleted, inputRef, liste
         <div className='flex items-center pr-2 w-80 cursor-pointer' {...listeners} >
           {isCompleted ? (
             <span className='text-gray-400 line-through flex items-center break-all' >{editedTaskText}</span>
-          ) : (
-            <span className='text-black flex items-centr break-all' >{editedTaskText}</span>
-          )}
+          ) :
+            isEqual(todoDate, new Date(0)) || add(new Date(), { days: 6 }) < todoDate ? (
+              <span className='text-black flex items-centr break-all' >{editedTaskText}</span>
+            ) : (
+              add(new Date(), { days: 2 }) > todoDate ? (
+                <span className='text-red-500 flex items-centr break-all' >{editedTaskText}</span>
+              ) : (
+                <span className='text-yellow-500 flex items-centr break-all' >{editedTaskText}</span>
+              )
+            )
+          }
         </div>
       )
       }

@@ -9,6 +9,7 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { editTodo } = useFirebaseApi();
   const [isEditing, setIsEditing] = useState(false);
+  const [isShowdrop, setIsShowdrop] = useState(false);
   const [editedTaskText, setEditedTaskText] = useState(todo.text);
   const [stockTaskText, setStockTaskText] = useState(todo.text);
   const toast = useToast();
@@ -34,6 +35,7 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
 
   const handleEdit = () => {
     setStockTaskText(editedTaskText);
+    setIsShowdrop(true);
     setIsEditing(true);
   };
 
@@ -44,6 +46,7 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
       return;
     }
     setIsEditing(false);
+    setIsShowdrop(false);
     onEditTodo(todo.id, todo.text);
     const id = toast.loadingToast();
     try {
@@ -68,11 +71,13 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
 
   return {
     isEditing,
+    isShowdrop,
     inputRef,
     editedTaskText,
     todoMemo,
     todoDate,
     setIsEditing,
+    setIsShowdrop,
     setEditedTaskText,
     setTodoMemo,
     setTodoDate,
