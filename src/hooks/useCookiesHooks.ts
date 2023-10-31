@@ -2,16 +2,19 @@ import { CookiesType } from "@/types";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import useToast from "./useToast";
+import { differenceInMinutes } from "date-fns";
 
 const useCookiesHooks = () => {
   const [cookies, setCookie, removeCookie] = useCookies<string, CookiesType>(['uid', 'loginTime', 'elapsedTime']);
   const navigate = useNavigate();
   const toast = useToast();
+  const timeoutMinutes = 180;
+  
   const elapsedTime = () => {
-    setCookie("elapsedTime", new Date().getTime());
+    setCookie("elapsedTime", new Date());
     if (cookies.loginTime !== undefined && cookies.elapsedTime !== undefined) {
-      const diff = ((cookies.elapsedTime - cookies.loginTime) / (60 * 60 * 1000));
-      if (diff > 3) {
+      const SessionElapsedMinutes = differenceInMinutes(new Date(cookies.elapsedTime), new Date(cookies.loginTime));
+      if (SessionElapsedMinutes >= timeoutMinutes) {
         logOut();
         return;
       }
@@ -19,12 +22,12 @@ const useCookiesHooks = () => {
   };
 
   const updateSessionTime = () => {
-    setCookie("loginTime", new Date().getTime());
+    setCookie("loginTime", new Date());
   };
 
   const logIn = (uid: string) => {
     setCookie("uid", uid);
-    setCookie("loginTime", new Date().getTime());
+    setCookie("loginTime", new Date());
     navigate("/todos");
     toast.logInToast();
   };
