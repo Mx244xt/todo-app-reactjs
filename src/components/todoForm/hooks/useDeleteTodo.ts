@@ -23,17 +23,17 @@ const useDeleteTodo = ({ todo, onAddTodo, onDeleteTodo }: TodoPropsType) => {
     try {
       const response: ResponseTodoType = await deleteTodo({ uid: todo.uid, id: todo.id });
       if (response.statusCode === 200) {
-        return toast.successToast(id);
+        return toast.successUpdateToast(id, 'データを更新しました。');
       }
       if (response.statusCode === 204) {
-        return toast.successToast(id);
+        return toast.successUpdateToast(id, 'データを更新しました。');
       }
       onAddTodo(stockTask);
-      toast.errorToast(id);
+      toast.errorUpdateToast(id, 'データの更新に失敗しました。');
       return;
     } catch (error) {
       onAddTodo(stockTask);
-      toast.errorToast(id);
+      toast.errorUpdateToast(id, 'データの更新に失敗しました。');
     }
   };
 

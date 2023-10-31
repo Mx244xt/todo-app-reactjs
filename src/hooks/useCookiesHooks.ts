@@ -29,7 +29,7 @@ const useCookiesHooks = () => {
     setCookie("uid", uid);
     setCookie("loginTime", new Date());
     navigate("/todos");
-    toast.logInToast();
+    toast.successToast('ログインしました。');
   };
 
   const logOut = () => {
@@ -37,7 +37,7 @@ const useCookiesHooks = () => {
     removeCookie("loginTime");
     removeCookie("elapsedTime");
     navigate("/");
-    toast.logOutToast();
+    toast.successToast('ログアウトしました。');
   };
 
   return { cookies, logIn, logOut, elapsedTime, updateSessionTime };

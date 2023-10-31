@@ -7,10 +7,10 @@ const useToast = () => {
     return id;
   };
 
-  const successToast = (id: Id) => {
+  const successUpdateToast = (id: Id, message: string) => {
     if (id == null) return;
     toast.update(id, {
-      render: "データを更新しました。",
+      render: message,
       type: "success",
       isLoading: false,
       autoClose: 1000,
@@ -19,10 +19,10 @@ const useToast = () => {
     });
   };
 
-  const errorToast = (id: Id) => {
+  const errorUpdateToast = (id: Id, message: string) => {
     if (id == null) return;
     toast.update(id, {
-      render: "データの更新に失敗しました。",
+      render: message,
       type: "error",
       isLoading: false,
       autoClose: 1000,
@@ -31,23 +31,15 @@ const useToast = () => {
     });
   };
 
-  const logInToast = () => {
-    toast.success("ログインしました。", {
+  const successToast = (message: string) => {
+    toast.success(message, {
       autoClose: 1000,
       closeOnClick: true,
       hideProgressBar: true
     });
   };
 
-  const logOutToast = () => {
-    toast.success("ログアウトしました。", {
-      autoClose: 1000,
-      closeOnClick: true,
-      hideProgressBar: true
-    });
-  };
-  
-  return { loadingToast, successToast, errorToast, logInToast, logOutToast };
+  return { loadingToast, successUpdateToast, errorUpdateToast, successToast };
 };
 
 export default useToast;

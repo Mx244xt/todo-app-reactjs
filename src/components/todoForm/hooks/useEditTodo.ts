@@ -53,14 +53,14 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
       const response: ResponseTodoType = await editTodo({ uid: todo.uid, id: todo.id, newText: editedTaskText, memo: todoMemo, deadLine: todoDate });
       if (response.statusCode !== 200) {
         setEditedTaskText(todo.text);
-        toast.errorToast(id);
+        toast.errorUpdateToast(id, 'データの更新に失敗しました。');
         return;
       }
-      toast.successToast(id);
+      toast.successUpdateToast(id, 'データを更新しました。');
       return;
     } catch (error) {
       setEditedTaskText(todo.text);
-      toast.errorToast(id);
+      toast.errorUpdateToast(id, 'データの更新に失敗しました。');
     }
   };
 

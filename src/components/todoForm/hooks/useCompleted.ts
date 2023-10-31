@@ -26,14 +26,14 @@ const useCompleted = ({ todo, onCompletedTodo }: { todo: TodoType, onCompletedTo
       const response: ResponseTodoType = await checkedTodo({ uid: todo.uid, id: todo.id, completed: !isCompleted });
       if (response.statusCode !== 200) {
         setIsCmpleted(isCompleted);
-        toast.errorToast(id);
+        toast.errorUpdateToast(id, 'データの更新に失敗しました。');
         return;
       }
-      toast.successToast(id);
+      toast.successUpdateToast(id, 'データを更新しました。');
       return;
     } catch (error) {
       setIsCmpleted(isCompleted);
-      toast.errorToast(id);
+      toast.errorUpdateToast(id, 'データの更新に失敗しました。');
     }
   };
 

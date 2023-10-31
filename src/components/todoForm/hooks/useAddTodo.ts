@@ -42,15 +42,15 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
       if (response.statusCode !== 200) {
         onDeleteTodo(data.id);
         validation.badResponse();
-        toast.errorToast(ToastId);
+        toast.errorUpdateToast(ToastId, 'データの更新に失敗しました。');
         return;
       }
-      toast.successToast(ToastId);
+      toast.successUpdateToast(ToastId, 'データを更新しました。');
       return;
     } catch (error) {
       onDeleteTodo(data.id);
       validation.badResponse();
-      toast.errorToast(ToastId);
+      toast.errorUpdateToast(ToastId, 'データの更新に失敗しました。');
     }
   };
 

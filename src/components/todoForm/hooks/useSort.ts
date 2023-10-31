@@ -40,13 +40,13 @@ const useSort = ({ todos, setTodos }: TodosStateType) => {
     try {
       const response: ResponseTodoType = await changeIndex(result);
       if (response.statusCode !== 200) {
-        toast.errorToast(id);
+        toast.errorUpdateToast(id, 'データの更新に失敗しました。');
         return;
       }
-      toast.successToast(id);
+      toast.successUpdateToast(id, 'データを更新しました。');
       return;
     } catch (error) {
-      toast.errorToast(id);
+      toast.errorUpdateToast(id, 'データの更新に失敗しました。');
     }
   };
 
