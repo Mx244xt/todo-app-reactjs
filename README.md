@@ -1,46 +1,71 @@
-# Getting Started with Create React App
+# Todo App with ReactJs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## サイト概要
 
-## Available Scripts
+firebase で登録しているユーザーのみログインできる。 Todo アプリサイトです。
 
-In the project directory, you can run:
+ログインユーザーごとに、Todo リストの出しわけを行います。
 
-### `npm start`
+ログイン機能には firebase Auth、データベースには firbase Store を使用しています。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+利用される場合は、Googleでログインまたは、下記にサンプルアカウントを記載していますので、そちらでもログインして頂けます。
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+内容は不適切な内容でない限り追加修正など自由に行ってください。
 
-### `npm test`
+サンプルアカウント
+email: masuda@example.com
+pass: Abc@1234
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### サイト URL
 
-### `npm run build`
+<https://todo-next.mx244.com/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 制作背景
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Nextjs、TypeScript、firebase の学習のため作成。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 使用技術
 
-### `npm run eject`
+### 使用言語
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- TypeScript : <https://www.typescriptlang.org/>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### フレームワーク
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Next.js : <https://nextjs.org/>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### ライブラリ
 
-## Learn More
+- Tailwind CSS : <https://tailwindcss.com/>
+- React Hooks Form : <https://react-hook-form.com/>
+- uuid : <https://www.npmjs.com/package/uuid>
+- zod : <https://www.npmjs.com/package/zod>
+- react-firebase-hooks : <https://github.com/CSFrequency/react-firebase-hooks>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### インフラ
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Firebase : <https://firebase.google.com/?hl=ja>
+
+- Authentication : <https://firebase.google.com/docs/auth?hl=ja>
+- Cloud Firestore : <https://firebase.google.com/docs/firestore?hl=ja>
+
+## インフラ構成図
+
+<img src="https://data-m244.s3.amazonaws.com/todo-app-react/TodoAppReact_Infrastructure.jpg" alt="インフラ構成図" width="80%" />
+
+## 機能
+
+ユーザー認証機能:
+
+- ログイン
+  - 入力バリデーション
+- サインアウト
+  <img src="https://data-m244.s3.amazonaws.com/todo-app-react/todopage.png" alt="ログイン画面" width="50%" />
+
+Todo 機能:
+
+- 新規作成
+- 編集
+- 削除
+- 完了チェック
+  <img src="https://data-m244.s3.amazonaws.com/todo-app-react/todopage.png" alt="Todo画面" width="50%" />
