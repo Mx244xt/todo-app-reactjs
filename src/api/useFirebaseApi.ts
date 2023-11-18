@@ -187,7 +187,10 @@ const useFirebaseApi = () => {
         uid: uid,
         id: id
       };
+<<<<<<< HEAD
 
+=======
+>>>>>>> prod
       const headers = {
         'Content-type': 'Application/json',
       };
