@@ -7,7 +7,6 @@ import ShowCompletedDropdown from './ShowCompletedDropdown';
 import useShowCompletedDropdown from './hooks/useShowCompletedDropdown';
 import useGetTodos from './hooks/useGetTodos';
 import ShowTodosSort from './ShowTodosSort';
-import useShowTodosSort from './hooks/useShowTodosSort';
 
 const TodoBody = () => {
   const [todos, setTodos] = useState<TodoType[]>([]);

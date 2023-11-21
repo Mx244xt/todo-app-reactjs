@@ -1,5 +1,5 @@
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import { add, isEqual, sub } from "date-fns";
+import { add, isEqual } from "date-fns";
 import { UseFormRegister } from "react-hook-form";
 
 interface TodoInputFromType {
