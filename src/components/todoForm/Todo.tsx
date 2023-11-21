@@ -25,7 +25,6 @@ const Todo = ({ ...props }: TodoPropsType) => {
     transition,
   };
 
-
   return (
     <>
       <form onSubmit={editProps.handleSubmit(editProps.handleSave)} ref={sortProps.setNodeRef} style={style} className='flex flex-col  bg-white border-l-4 border-blue-500 rounded shadow relative'>
@@ -63,7 +62,11 @@ const Todo = ({ ...props }: TodoPropsType) => {
               <p className='mr-2'>期日</p>
               {!editProps.isEditing
                 ? <p>{editProps.todoDate > new Date(0) ? format(editProps.todoDate, 'yyyy年MM月dd日') : null}</p>
-                : <input type="date" name="date" onChange={(e) => editProps.handleChangeDate(e)} disabled={!editProps.isEditing} value={editProps.todoDate > new Date(0) ? format(editProps.todoDate, 'yyyy-MM-dd') : undefined} />
+                : <input type="date" className='border' name="date" onChange={(e) => editProps.handleChangeDate(e)} disabled={!editProps.isEditing} value={editProps.todoDate > new Date(0) ? format(editProps.todoDate, 'yyyy-MM-dd') : ''} />
+              }
+              {editProps.isEditing ?
+                <button type='button' className='ml-3' onClick={() => editProps.setTodoDate(new Date(0))}>x</button>
+                : <></>
               }
             </div>
           </div>
