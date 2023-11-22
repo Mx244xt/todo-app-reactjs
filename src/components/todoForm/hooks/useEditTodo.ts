@@ -67,6 +67,7 @@ const useEditTodo = ({ todo, onEditTodo }: { todo: TodoType, onEditTodo: (id: st
   const handleReset = () => {
     setEditedTaskText(stockTaskText);
     setIsEditing(false);
+    setIsShowdrop(false);
   };
 
   return {
