@@ -1,19 +1,25 @@
 
 import { ResponseAccountType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useReducer } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { accountFormType, accountFormValidationShema } from '../../..//lib/validationShema';
 import useFirebaseApi from '../../../api/useFirebaseApi';
 import { useCookiesHooks, useLoading } from '../../../hooks';
-import { useState } from 'react';
+
+type initialStateType = {
+  termsOfUse: boolean,
+  privacyPolicy: boolean,
+  isEnable: boolean,
+  isChecked: boolean
+};
 
 const useCreateAccount = () => {
   const navigate = useNavigate();
   const { isLoading, startLoding, stopLoding } = useLoading();
   const { logIn } = useCookiesHooks();
   const { createEmailAccount } = useFirebaseApi();
-  const [isChecked, setIsChecked] = useState(true);
   const {
     register,
     handleSubmit,
@@ -25,9 +31,27 @@ const useCreateAccount = () => {
     resolver: zodResolver(accountFormValidationShema)
   });
 
-  const handleCheck = () => {
-    setIsChecked(!isChecked);
+  const reducerFunc = (checkState: initialStateType, action: string) => {
+    switch (action) {
+      case 'termsOfUse':
+        return { ...checkState, termsOfUse: initialState.termsOfUse = true };
+      case 'privacyPolicy':
+        return { ...checkState, privacyPolicy: initialState.privacyPolicy = true };
+      case 'isChecked':
+        return { ...checkState, isChecked: initialState.isChecked = !checkState.isChecked };
+      default:
+        return checkState;
+    }
   };
+
+  const initialState = {
+    termsOfUse: false,
+    privacyPolicy: false,
+    isEnable: true,
+    isChecked: true
+  };
+
+  const [isEnable, setIsEnable] = useReducer(reducerFunc, initialState);
 
   const backToLoginForm = () => {
     navigate('/');
@@ -54,8 +78,8 @@ const useCreateAccount = () => {
   };
 
   return {
-    state: { isLoading, isChecked, errors },
-    action: { register, handleSubmit, backToLoginForm, createAccount, handleCheck }
+    state: { isLoading, isEnable, errors },
+    action: { register, handleSubmit, backToLoginForm, createAccount, setIsEnable }
   };
 };
 

@@ -25,7 +25,6 @@ export const ConfirmationDialogProvider: React.FC<{ children: React.ReactNode }>
   const [dialogContent, setDialogContent] = useReducer(reducer, <></>);
 
   const openDialog = (content: JSX.Element) => {
-    // setDialogContent(content);
     setIsDialogOpen(true);
     setDialogContent(content);
   };
