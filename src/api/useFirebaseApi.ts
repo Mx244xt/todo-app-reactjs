@@ -254,7 +254,7 @@ const useFirebaseApi = () => {
       return error;
     }
   };
-  const PasswordResetSendMail = async ({ email }: { email: string }) => {
+  const submitPasswordResetEmail = async ({ email }: { email: string }) => {
     try {
       const data: { email: string } = {
         email: email,
@@ -270,7 +270,7 @@ const useFirebaseApi = () => {
         body: JSON.stringify(data),
       };
 
-      const response: Response = await fetch('https://todo-next-api.mx244.com/createNewPassword', options);
+      const response: Response = await fetch('https://todo-next-api.mx244.com/submitPasswordResetEmail', options);
       return response.json();
     } catch (error) {
       serverError();
@@ -278,7 +278,7 @@ const useFirebaseApi = () => {
     }
   };
 
-  return { getTodoList, addTodo, changeIndex, checkedTodo, editTodo, deleteTodo, createEmailAccount, signInEmailPassword, PasswordResetSendMail };
+  return { getTodoList, addTodo, changeIndex, checkedTodo, editTodo, deleteTodo, createEmailAccount, signInEmailPassword, submitPasswordResetEmail };
 };
 
 export default useFirebaseApi;

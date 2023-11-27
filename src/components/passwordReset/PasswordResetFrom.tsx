@@ -10,14 +10,6 @@ const PasswordResetFrom = () => {
   return (
     <FormBody title='パスワード再設定' submitEvent={handleSubmit(passwordReset)}>
       <InputForm
-        title="確認コード"
-        type="text"
-        id="passwordConfirm"
-        register={register("passwordConfirm")}
-        errors={errors}
-        placeholder='123456'
-      />
-      <InputForm
         title="メールアドレス"
         type="email"
         id="email"

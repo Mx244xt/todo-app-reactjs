@@ -11,7 +11,7 @@ const usePasswordReset = () => {
   const navigate = useNavigate();
   const { isLoading, startLoding, stopLoding } = useLoading();
   const { logIn } = useCookiesHooks();
-  const { PasswordResetSendMail } = useFirebaseApi();
+  const { submitPasswordResetEmail } = useFirebaseApi();
   const {
     register,
     handleSubmit,
@@ -27,11 +27,12 @@ const usePasswordReset = () => {
 
   const passwordReset: SubmitHandler<accountFormType> = async (data) => {
     startLoding();
-    const response: ResponseAccountType = await PasswordResetSendMail(data);
+    const response: ResponseAccountType = await submitPasswordResetEmail(data);
     if (response.statusCode === 200) {
       return logIn(response.uid);
     }
     stopLoding();
+    //TODO:エラーメッセージ
     return;
   };
 

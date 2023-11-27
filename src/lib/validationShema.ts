@@ -17,9 +17,6 @@ export const LoginFormValidationShema = z.object({
 export type LoginFormType = z.infer<typeof LoginFormValidationShema>;
 
 export const accountFormValidationShema = z.object({
-  confirmCode: z
-    .string()
-    .nonempty("確認コードを入力してください。"),
   email: z
     .string()
     .nonempty("メールアドレスを入力してください。")
