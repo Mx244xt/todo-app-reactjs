@@ -41,6 +41,7 @@ const InputPassword = ({ title, id, register, errors, placeholder }: InputPasswo
           id={id}
           {...register}
           placeholder={placeholder}
+          autoComplete="new-password"
         />
         <button className="w-7 -ml-11" type="button" onClick={switchShowPassword}>
           {showPassword ? <img src="/images/showPassword.png" alt="" /> : <img src="/images/password.png" alt="" />} 

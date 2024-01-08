@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer, useState } from 'react';
 
 interface ConfirmationDialogContextType {
@@ -13,10 +12,9 @@ const ConfirmDialogContext = createContext<ConfirmationDialogContextType | undef
 
 export const ConfirmationDialogProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // const [dialogContent, setDialogContent] = useState('');
 
   const reducer = (bool: JSX.Element, content: JSX.Element) => {
-    if (isDialogOpen) {
+    if (bool) {
       return <>{content}</>;
     } else {
       return <></>;
@@ -25,7 +23,6 @@ export const ConfirmationDialogProvider: React.FC<{ children: React.ReactNode }>
   const [dialogContent, setDialogContent] = useReducer(reducer, <></>);
 
   const openDialog = (content: JSX.Element) => {
-    // setDialogContent(content);
     setIsDialogOpen(true);
     setDialogContent(content);
   };

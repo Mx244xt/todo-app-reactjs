@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CreateAccount from "../pages/CreateAccount";
-import Error500 from "../pages/Error500";
-import TodoFrom from "../pages/TodoFrom";
-import TopPage from "../pages/TopPage";
-import PasswordReset from "../pages/PasswordReset";
-import SendPasswordReset from "../pages/SendPasswordReset";
+import CreateAccount from "../screen/CreateAccount";
+import Error500 from "../screen/Error500";
+import TodoFrom from "../screen/TodoFrom";
+import TopPage from "../screen/TopPage";
+import PasswordReset from "../screen/PasswordReset";
+import SendPasswordReset from "../screen/SendPasswordReset";
 
 export const RouterConfig: React.FC = () => {
   return (

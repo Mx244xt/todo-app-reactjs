@@ -2,28 +2,15 @@ import { z } from "zod";
 
 const PASSWORD = new RegExp("^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@;:])|(?=.*[A-Z])(?=.*[0-9])(?=.*[!@;:])|(?=.*[a-z])(?=.*[0-9])(?=.*[!@;:]))([a-zA-Z0-9!@;:]){8,}$");
 
-export const LoginFormValidationShema = z.object({
+export const emailValidationShema = z.object({
   email: z
     .string()
     .nonempty("メールアドレスを入力してください。")
     .email("メールアドレス形式で入力してください。"),
-  password: z
-    .string()
-    .nonempty("パスワードを入力してください。"),
-  login: z
-    .unknown()
 });
+export type emailFromType = z.infer<typeof emailValidationShema>;
 
-export type LoginFormType = z.infer<typeof LoginFormValidationShema>;
-
-export const accountFormValidationShema = z.object({
-  confirmCode: z
-    .string()
-    .nonempty("確認コードを入力してください。"),
-  email: z
-    .string()
-    .nonempty("メールアドレスを入力してください。")
-    .email("メールアドレス形式で入力してください。"),
+export const newPasswordValidationShema = z.object({
   password: z
     .string()
     .nonempty("パスワードを入力してください。")
@@ -32,7 +19,25 @@ export const accountFormValidationShema = z.object({
   passwordConfirm: z
     .string()
     .nonempty("パスワード確認を入力してください。"),
-})
+});
+
+export const actionCodeValidationShema = z.object({
+  code: z
+    .string()
+    .nonempty("認証コードが無効です。")
+});
+
+
+export const LoginFormValidationShema = emailValidationShema.extend({
+  password: z
+    .string()
+    .nonempty("パスワードを入力してください。"),
+  login: z
+    .unknown()
+});
+export type LoginFormType = z.infer<typeof LoginFormValidationShema>;
+
+export const newAccountFormValidationShema = emailValidationShema.merge(newPasswordValidationShema)
   .superRefine(({ password, passwordConfirm }, ctx) => {
     if (password !== passwordConfirm) {
       ctx.addIssue({
@@ -43,8 +48,20 @@ export const accountFormValidationShema = z.object({
       return;
     }
   });
+export type newAccountFormType = z.infer<typeof newAccountFormValidationShema>;
 
-export type accountFormType = z.infer<typeof accountFormValidationShema>;
+export const newPasswordFormValidationShema = actionCodeValidationShema.merge(newPasswordValidationShema)
+  .superRefine(({ password, passwordConfirm }, ctx) => {
+    if (password !== passwordConfirm) {
+      ctx.addIssue({
+        path: ['passwordConfirm'],
+        code: 'custom',
+        message: 'パスワードとパスワード確認が一致しません',
+      });
+      return;
+    }
+  });
+export type newPasswordFromType = z.infer<typeof newPasswordFormValidationShema>;
 
 export const todoValidationShema = z.object({
   todo: z

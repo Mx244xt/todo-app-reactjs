@@ -1,16 +1,15 @@
 
 import FormBody from '../base/FormBody';
 import { ButtonFrom, InputForm, Loading } from '../uiComponents';
-import usePasswordReset from './hooks/usePasswordReset';
+import useSendPasswordReset from './hooks/useSendPasswordReset';
 
 const SendPasswordResetForm = () => {
   const {
     state: { isLoading, errors },
-    action: { register, handleSubmit, backToLoginForm, passwordReset }
-  } = usePasswordReset();
-
+    action: { register, handleSubmit, backToLoginForm, sendPasswordReset }
+  } = useSendPasswordReset();
   return (
-    <FormBody title='パスワード再設定メール送信' submitEvent={handleSubmit(passwordReset)}>
+    <FormBody title='パスワード再設定メール送信' submitEvent={handleSubmit(sendPasswordReset)}> 
       <InputForm
         title="メールアドレス"
         type="email"
