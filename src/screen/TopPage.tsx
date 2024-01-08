@@ -1,12 +1,12 @@
-import BackgroundImage from '../components/base/BackgroundImage';
 import LoginForm from '../components/loginFrom/LoginForm';
+import BackgroundFrom from './BackgroundFrom';
 
 function TopPage() {
   return (
-    <div className='grid min-h-screen landscape:max-h-full grid-cols-1 overflow-hidden  lg:grid-cols-2'>
-      <BackgroundImage url="/images/desk_work.jpeg" />
+    <BackgroundFrom>
       <LoginForm />
-    </div >);
+    </BackgroundFrom>
+  );
 }
 
 export default TopPage;

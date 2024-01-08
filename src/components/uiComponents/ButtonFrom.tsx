@@ -13,7 +13,7 @@ interface SubmitButtonType {
   title: string;
   textColor: string;
   bgColor: string;
-  icon: string
+  icon?: string
   disabled: boolean;
 }
 
