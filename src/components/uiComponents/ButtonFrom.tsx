@@ -30,7 +30,7 @@ const ButtonFrom = ({ ...props }: ButtomPropsType) => {
         </div>
       }
       {
-        props.type == 'button'
+        props.type === 'button'
           ? <button
             className={`w-full px-2 py-2`}
             type={props.type}
