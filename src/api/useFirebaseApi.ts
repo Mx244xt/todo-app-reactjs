@@ -1,4 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import {
+  ADD_TODO_URL,
+  CHANGE_INDEX_URL,
+  CHECKED_TODO_URL,
+  CREATE_EMAIL_ACCOUNT_URL,
+  DELETE_TODO_URL,
+  EDIT_TODO_URL,
+  GET_TODO_LIST_URL,
+  PASSWORD_RESET_AUTHCONFIRM_URL,
+  SEND_PASSWORD_RESET_EMAIL_URL,
+  SIGNIN_EMAIL_PASSWORD_URL
+} from "../lib/apiUrl";
+
+interface apiType {
+  type: string
+}
 
 interface addTodoTypes {
   id: string;
@@ -31,6 +47,11 @@ interface emailAuthType {
   password: string
 }
 
+interface newPasswordType {
+  code: string;
+  password: string;
+}
+
 interface changeIndexType {
   uid: string;
   id: string;
@@ -60,8 +81,9 @@ const useFirebaseApi = () => {
         return list;
       });
 
-      const data: changeIndexListType = {
-        list: list
+      const data: changeIndexListType & apiType = {
+        list: list,
+        type: 'changeSort'
       };
 
       const headers = {
@@ -74,7 +96,7 @@ const useFirebaseApi = () => {
         body: JSON.stringify(data),
       };
 
-      const response: Response = await fetch('https://todo-next-api.mx244.com/changeSort', options);
+      const response: Response = await fetch(CHANGE_INDEX_URL, options);
       return response.json();
     } catch (error) {
       serverError();
@@ -93,7 +115,7 @@ const useFirebaseApi = () => {
         headers: headers,
       };
 
-      const response: Response = await fetch(`https://todo-next-api.mx244.com/getTodoList/?uid=${uid}`, options);
+      const response: Response = await fetch(GET_TODO_LIST_URL + `/?uid=${uid}&type=getTodoList`, options);
       return response.json();
     } catch (error) {
       serverError();
@@ -103,7 +125,8 @@ const useFirebaseApi = () => {
 
   const addTodo = async ({ id, index, text, uid }: addTodoTypes) => {
     try {
-      const data: addTodoTypes = {
+      const data: addTodoTypes & apiType = {
+        type: 'addTodo',
         id: id,
         index: index,
         uid: uid,
@@ -120,7 +143,7 @@ const useFirebaseApi = () => {
         body: JSON.stringify(data),
       };
 
-      const response: Response = await fetch('https://todo-next-api.mx244.com/addTodo', options);
+      const response: Response = await fetch(ADD_TODO_URL, options);
       return response.json();
     } catch (error) {
       serverError();
@@ -130,7 +153,8 @@ const useFirebaseApi = () => {
 
   const checkedTodo = async ({ uid, id, completed }: checkedTodoTypes) => {
     try {
-      const data: checkedTodoTypes = {
+      const data: checkedTodoTypes & apiType = {
+        type: 'checkedTodo',
         uid: uid,
         id: id,
         completed: completed,
@@ -145,7 +169,7 @@ const useFirebaseApi = () => {
         headers: headers,
         body: JSON.stringify(data),
       };
-      const response: Response = await fetch('https://todo-next-api.mx244.com/checkedTodo', options);
+      const response: Response = await fetch(CHECKED_TODO_URL, options);
       return response.json();
     } catch (error) {
       serverError();
@@ -155,7 +179,8 @@ const useFirebaseApi = () => {
 
   const editTodo = async ({ uid, id, newText, memo, deadLine }: editTodoType) => {
     try {
-      const data: editTodoType = {
+      const data: editTodoType & apiType = {
+        type: 'editTodo',
         uid: uid,
         id: id,
         newText: newText,
@@ -173,7 +198,7 @@ const useFirebaseApi = () => {
         body: JSON.stringify(data),
       };
 
-      const response: Response = await fetch('https://todo-next-api.mx244.com/editTodo', options);
+      const response: Response = await fetch(EDIT_TODO_URL, options);
       return response.json();
     } catch (error) {
       serverError();
@@ -183,7 +208,8 @@ const useFirebaseApi = () => {
 
   const deleteTodo = async ({ uid, id }: deleteTodoType) => {
     try {
-      const data: deleteTodoType = {
+      const data: deleteTodoType & apiType = {
+        type: 'deleteTodo',
         uid: uid,
         id: id
       };
@@ -197,7 +223,7 @@ const useFirebaseApi = () => {
         body: JSON.stringify(data),
       };
 
-      const response: Response = await fetch('https://todo-next-api.mx244.com/deleteTodo', options);
+      const response: Response = await fetch(DELETE_TODO_URL, options);
       return response.json();
     } catch (error) {
       serverError();
@@ -207,7 +233,8 @@ const useFirebaseApi = () => {
 
   const createEmailAccount = async ({ email, password }: emailAuthType) => {
     try {
-      const data: emailAuthType = {
+      const data: emailAuthType & apiType = {
+        type: 'createEmailAccount',
         email: email,
         password: password,
       };
@@ -217,12 +244,12 @@ const useFirebaseApi = () => {
       };
 
       const options = {
-        method: 'PUT',
+        method: 'POST',
         headers: headers,
         body: JSON.stringify(data),
       };
 
-      const response: Response = await fetch('https://todo-next-api.mx244.com/createemailaccount', options);
+      const response: Response = await fetch(CREATE_EMAIL_ACCOUNT_URL, options);
       return response.json();
     } catch (error) {
       serverError();
@@ -232,7 +259,8 @@ const useFirebaseApi = () => {
 
   const signInEmailPassword = async ({ email, password }: emailAuthType) => {
     try {
-      const data: emailAuthType = {
+      const data: emailAuthType & apiType = {
+        type: 'checkAuth',
         email: email,
         password: password,
       };
@@ -247,16 +275,18 @@ const useFirebaseApi = () => {
         body: JSON.stringify(data),
       };
 
-      const response: Response = await fetch("https://todo-next-api.mx244.com/checkAuth", options);
+      const response: Response = await fetch(SIGNIN_EMAIL_PASSWORD_URL, options);
       return response.json();
     } catch (error) {
       serverError();
       return error;
     }
   };
-  const submitPasswordResetEmail = async ({ email }: { email: string }) => {
+
+  const sendPasswordResetEmail = async ({ email }: { email: string }) => {
     try {
-      const data: { email: string } = {
+      const data: { email: string } & apiType = {
+        type: 'sendPasswordResetEmail',
         email: email,
       };
 
@@ -270,7 +300,7 @@ const useFirebaseApi = () => {
         body: JSON.stringify(data),
       };
 
-      const response: Response = await fetch('https://todo-next-api.mx244.com/submitPasswordResetEmail', options);
+      const response: Response = await fetch(SEND_PASSWORD_RESET_EMAIL_URL, options);
       return response.json();
     } catch (error) {
       serverError();
@@ -278,7 +308,33 @@ const useFirebaseApi = () => {
     }
   };
 
-  return { getTodoList, addTodo, changeIndex, checkedTodo, editTodo, deleteTodo, createEmailAccount, signInEmailPassword, submitPasswordResetEmail };
+  const passwordResetAuthConfirm = async ({ code, password }: newPasswordType) => {
+    try {
+      const data: newPasswordType & apiType = {
+        type: 'passwordResetAuthConfirm',
+        code: code,
+        password: password,
+      };
+
+      const headers = {
+        'Content-type': 'Application/json',
+      };
+
+      const options = {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify(data),
+      };
+
+      const response: Response = await fetch(PASSWORD_RESET_AUTHCONFIRM_URL, options);
+      return response.json();
+    } catch (error) {
+      serverError();
+      return error;
+    }
+  };
+
+  return { getTodoList, addTodo, changeIndex, checkedTodo, editTodo, deleteTodo, createEmailAccount, signInEmailPassword, sendPasswordResetEmail, passwordResetAuthConfirm };
 };
 
 export default useFirebaseApi;
