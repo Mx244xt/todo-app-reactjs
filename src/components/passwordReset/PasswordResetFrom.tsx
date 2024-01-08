@@ -1,5 +1,5 @@
 import FormBody from '../base/FormBody';
-import { ButtonFrom, InputForm, InputPassword, Loading } from '../uiComponents';
+import { ButtonFrom, InputPassword, Loading } from '../uiComponents';
 import usePasswordReset from './hooks/usePasswordReset';
 
 const PasswordResetFrom = () => {
@@ -9,14 +9,6 @@ const PasswordResetFrom = () => {
   } = usePasswordReset();
   return (
     <FormBody title='パスワード再設定' submitEvent={handleSubmit(passwordReset)}>
-      <InputForm
-        title="メールアドレス"
-        type="email"
-        id="email"
-        register={register("email")}
-        errors={errors}
-        placeholder='todo@example.com'
-      />
       <InputPassword
         title="新パスワード"
         id="password"
