@@ -30,7 +30,7 @@ const useLogin = () => {
   } = useForm<LoginFormType>({
     mode: 'onBlur',
     resolver: zodResolver(LoginFormValidationShema),
-    defaultValues: { email: 'test@example.com', password: 'Abc@1234' }
+    // defaultValues: { email: 'test@example.com', password: 'Abc@1234' }
   });
 
   const loginEmail: SubmitHandler<LoginFormType> = async (data) => {
