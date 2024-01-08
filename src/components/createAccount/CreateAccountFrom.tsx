@@ -39,9 +39,15 @@ const CreateAccountFrom = () => {
       <div className='flex flex-row'>
         <input id='agree' className='mr-1' type='checkbox' onClick={() => setIsEnable('isChecked')} disabled={!isEnable.termsOfUse || !isEnable.privacyPolicy} />
         <div className='flex mb-1 flex-col md:flex-row'>
-          <ModalButton title="利用規約と" message={TermsOfUse()} />
-          <ModalButton title="プライバシーポリシー" message={PrivacyPolicy()} /><p>に同意する。</p>
-          <ModalDialog action={!isEnable.termsOfUse ? () => setIsEnable('termsOfUse') : () => setIsEnable('privacyPolicy')} />
+          <div className='flex'>
+            <ModalButton title="利用規約" message={TermsOfUse()} disabled={isEnable.termsOfUse} action={() => setIsEnable('termsOfUse')} />
+            <p>と</p>
+          </div>
+          <div className='flex'>
+            <ModalButton title="プライバシーポリシー" message={PrivacyPolicy()} disabled={isEnable.privacyPolicy} action={() => setIsEnable('privacyPolicy')} />
+            <p>に同意する。</p>
+          </div>
+          <ModalDialog action={() => setIsEnable('')} />
         </div>
       </div>
       {isLoading && <Loading />}

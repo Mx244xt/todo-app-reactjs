@@ -4,14 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useReducer } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { accountFormType, accountFormValidationShema } from '../../..//lib/validationShema';
+import { newAccountFormType, newAccountFormValidationShema } from '../../..//lib/validationShema';
 import useFirebaseApi from '../../../api/useFirebaseApi';
 import { useCookiesHooks, useLoading } from '../../../hooks';
 
 type initialStateType = {
   termsOfUse: boolean,
   privacyPolicy: boolean,
-  isEnable: boolean,
   isChecked: boolean
 };
 
@@ -26,9 +25,9 @@ const useCreateAccount = () => {
     formState: { errors },
     setError,
     clearErrors,
-  } = useForm<accountFormType>({
+  } = useForm<newAccountFormType>({
     mode: 'onChange',
-    resolver: zodResolver(accountFormValidationShema)
+    resolver: zodResolver(newAccountFormValidationShema)
   });
 
   const reducerFunc = (checkState: initialStateType, action: string) => {
@@ -47,7 +46,6 @@ const useCreateAccount = () => {
   const initialState = {
     termsOfUse: false,
     privacyPolicy: false,
-    isEnable: true,
     isChecked: true
   };
 
@@ -57,7 +55,7 @@ const useCreateAccount = () => {
     navigate('/');
   };
 
-  const createAccount: SubmitHandler<accountFormType> = async (data) => {
+  const createAccount: SubmitHandler<newAccountFormType> = async (data) => {
     startLoding();
     const response: ResponseAccountType = await createEmailAccount(data);
     if (response.statusCode === 200) {
@@ -75,6 +73,8 @@ const useCreateAccount = () => {
       }, 5000);
       return;
     }
+    navigate("/Internal-Server-Error");
+    return;
   };
 
   return {
