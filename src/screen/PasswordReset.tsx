@@ -1,5 +1,5 @@
+import BackgroundFrom from '../components/base/BackgroundFrom';
 import PasswordResetFrom from '../components/passwordReset/PasswordResetFrom';
-import BackgroundFrom from './BackgroundFrom';
 
 const PasswordReset = () => {
   return (

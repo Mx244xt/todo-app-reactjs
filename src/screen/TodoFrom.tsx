@@ -1,6 +1,5 @@
-import BackgroundImage from '../components/base/BackgroundImage';
+import BackgroundFrom from '../components/base/BackgroundFrom';
 import { Header, TodoBody } from '../components/todoForm';
-import BackgroundFrom from './BackgroundFrom';
 
 const TodoFrom = () => {
   return (

@@ -1,5 +1,5 @@
+import BackgroundFrom from '../components/base/BackgroundFrom';
 import SendPasswordResetForm from '../components/passwordReset/SendPasswordResetForm';
-import BackgroundFrom from './BackgroundFrom';
 
 const SendPasswordReset = () => {
   return (

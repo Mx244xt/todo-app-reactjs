@@ -1,5 +1,5 @@
+import BackgroundFrom from '../components/base/BackgroundFrom';
 import CreateAccountFrom from '../components/createAccount/CreateAccountFrom';
-import BackgroundFrom from './BackgroundFrom';
 
 const CreateAccount = () => {
   return (

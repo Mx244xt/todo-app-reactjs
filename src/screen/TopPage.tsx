@@ -1,5 +1,5 @@
+import BackgroundFrom from '../components/base/BackgroundFrom';
 import LoginForm from '../components/loginFrom/LoginForm';
-import BackgroundFrom from './BackgroundFrom';
 
 function TopPage() {
   return (

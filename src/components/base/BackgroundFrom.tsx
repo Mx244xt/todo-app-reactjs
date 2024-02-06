@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import BackgroundImage from '../components/base/BackgroundImage';
+import BackgroundImage from './BackgroundImage';
 
 interface BackgroundFromType {
   children: ReactNode;
