@@ -3,7 +3,7 @@ import { UseFormHandleSubmit } from "react-hook-form";
 interface TodoButtonType {
   isEditing: boolean;
   isCompleted: boolean;
-  handleSubmit: UseFormHandleSubmit<{ todo: string; }, undefined>;
+  handleSubmit: UseFormHandleSubmit<{ todo: string; }, { todo: string; }>;
   handleSave: () => Promise<void>;
   handleEdit: () => void;
   handleReset: () => void;
