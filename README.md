@@ -1,14 +1,16 @@
 # Todo App with ReactJs
+  <img src="https://data-m244.s3.amazonaws.com/todo-app-reactjs/Login.gif" alt="ログイン" width="49%" /> <img src="https://data-m244.s3.amazonaws.com/todo-app-reactjs/Edit_check_task.gif" alt="タスク編集" width="49%" />
+  <img src="https://data-m244.s3.amazonaws.com/todo-app-reactjs/Create_new_account.gif" alt="新規アカウント作成" width="49%" /> <img src="https://data-m244.s3.amazonaws.com/todo-app-reactjs/Forgot_password_send.gif" alt="パスワード再設定" width="49%" />
 
 ## サイト概要
 
-firebase で登録しているユーザーのみログインできる。 Todo アプリサイトです。
+登録しているユーザーのみログインできる。 Todo アプリサイトです。
 
 ログインユーザーごとに、Todo リストの出しわけを行います。
 
 ログイン機能には firebase Auth、データベースには firbase Store を使用しています。
 
-利用される場合は、Googleでログインまたは、下記にサンプルアカウントを記載していますので、そちらでもログインして頂けます。
+利用される場合は、下記にサンプルアカウントまたは新規アカウント作成を行ってください。
 
 内容は不適切な内容でない限り追加修正など自由に行ってください。
 
@@ -28,38 +30,34 @@ React、TypeScript、firebase の学習のため作成。
 
 ### 使用言語
 
-- TypeScript : <https://www.typescriptlang.org/>
-
-### フレームワーク
-
-- .js : <https://ja.react.dev/>
+- TypeScript
 
 ### ライブラリ
-
-- Tailwind CSS : <https://tailwindcss.com/>
-- React Hooks Form : <https://react-hook-form.com/>
-- zod : <https://www.npmjs.com/package/zod>
-- React Cookie : <https://www.npmjs.com/package/react-cookie>
-- React Toastify : <https://fkhadra.github.io/react-toastify/introduction>
-- dnd kit sortable : <https://docs.dndkit.com/presets/sortable>
-- date fns : <https://date-fns.org/>
-- uuid : <https://www.npmjs.com/package/uuid>
+- React
+- Tailwind CSS
+- React Hooks Form
+- zod
+- React Cookie
+- React Toastify
+- dnd kit sortable
+- date fns
+- uuid
 
 ### インフラ
 
-AWS： <https://docs.aws.amazon.com/?nc2=h_ql_doc_do>
+AWS
 
-- IAM : <https://docs.aws.amazon.com/singlesignon/?icmpid=docs_homepage_security>
-- S3 : <https://docs.aws.amazon.com/s3/?icmpid=docs_homepage_featuredsvcs>
-- API Gateway : <https://docs.aws.amazon.com/apigateway/?icmpid=docs_homepage_networking>
-- Lambda : <https://docs.aws.amazon.com/lambda/?icmpid=docs_homepage_compute>
-- Cloud Front : <https://docs.aws.amazon.com/cloudfront/?icmpid=docs_homepage_networking>
-- Route 53 : <https://docs.aws.amazon.com/route53/?icmpid=docs_homepage_networking>
+- IAM
+- S3
+- API Gateway
+- Lambda
+- Cloud Front
+- Route 53
 
-Firebase : <https://firebase.google.com/?hl=ja>
+Firebase
 
-- Authentication : <https://firebase.google.com/docs/auth?hl=ja>
-- Cloud Firestore : <https://firebase.google.com/docs/firestore?hl=ja>
+- Authentication
+- Cloud Firestore
 
 ## インフラ構成図
 
@@ -74,17 +72,16 @@ Firebase : <https://firebase.google.com/?hl=ja>
   - パスワード表示/非表示
   - アカウント新規作成
   - パスワード再設定
-  <img src="https://data-m244.s3.amazonaws.com/todo-app-react/todo-toppage.png" alt="ログイン画面" width="50%" />
-
-Todo画面:
-- 新規作成
-- 編集
-- 削除
-- 完了チェック
-- メモ入力欄
-- 期限設定
-- ソート機能
-- 並べ替え
-- 完了済み 表示/非表示
-- サインアウト
-  <img src="https://data-m244.s3.amazonaws.com/todo-app-react/todopage.png" alt="Todo画面" width="50%" />
+- Todo画面:
+  - タスクの作成
+  - 入力バリデーション
+  - タスクの編集
+  - タスクの削除
+  - タスクの完了チェック
+  - タスクのメモ入力
+  - タスクの期限設定
+  - 更新完了トースト
+  - ソート機能
+  - 並べ替え
+  - 完了済み 表示/非表示
+  - サインアウト

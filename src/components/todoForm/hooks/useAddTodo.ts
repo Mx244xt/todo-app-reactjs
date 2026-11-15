@@ -22,7 +22,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
       validation.idHasExpired();
       return;
     }
-    validation.resetField("todo");
+        validation.resetField("todo");
     const id = uuidv4();
     const data = {
       id: id,
@@ -38,7 +38,7 @@ const useAddTodo = ({ todos, setTodos }: TodosStateType) => {
     onAddTodo(data);
     const ToastId = toast.loadingToast();
     try {
-      const response: ResponseTodoType = await addTodo({ id: id, index: 0, text: todo, uid: cookies.uid });
+      const response: ResponseTodoType = await addTodo({ id: id, index: data.index, text: todo, uid: cookies.uid });
       if (response.statusCode !== 200) {
         onDeleteTodo(data.id);
         validation.badResponse();
